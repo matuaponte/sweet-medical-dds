@@ -8,11 +8,11 @@ class FactoryNotificacion {
     switch (turno.estado) {
       case EstadoTurno.RESERVADO:
         // TODO consultar el tema de servicio (especialidad o practica)
-        return new Notificacion({ destinatario: turno.medico, remitente: turno.paciente, mensaje: "El turno fue reservado por el paciente " + turno.paciente.nombre + " para el servicio " + turno.practica.nombre });
+        return new Notificacion({ destinatario: turno.medico, remitente: turno.paciente, mensaje: "El turno fue reservado por el paciente " + turno.paciente.nombre + " para la especialidad " + turno.especialidad.nombre + " con la practica " + turno.practica.nombre + " en la sede " + turno.sede.nombre });
       case EstadoTurno.CANCELADO:
-        return new Notificacion({ destinatario: turno.medico, remitente: turno.paciente, mensaje: "El turno fue cancelado por el paciente " + turno.paciente.nombre + " para el servicio " + turno.practica.nombre });
+        return new Notificacion({ destinatario: turno.medico, remitente: turno.paciente, mensaje: "El turno fue cancelado por el paciente " + turno.paciente.nombre + " para la especialidad " + turno.especialidad.nombre + " con la practica " + turno.practica.nombre + " en la sede " + turno.sede.nombre });
       case EstadoTurno.CONFIRMADO:
-        return new Notificacion({ destinatario: turno.paciente, remitente: turno.medico, mensaje: "El turno fue confirmado para el medico " + turno.medico.nombre + " para el servicio " + turno.practica.nombre });
+        return new Notificacion({ destinatario: turno.paciente, remitente: turno.medico, mensaje: "El turno fue confirmado por el medico " + turno.medico.nombre + " para la especialidad " + turno.especialidad.nombre + " con la practica " + turno.practica.nombre + " en la sede " + turno.sede.nombre });
       default:
         throw new Error("Estado de turno desconocido");
     }
