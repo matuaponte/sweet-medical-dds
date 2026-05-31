@@ -10,7 +10,7 @@ const MedicoSchema = new mongoose.Schema(
             trim: true,
             minlength: 1,
         },
-        idUsuario: {
+        usuario: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Usuario",
             required: true,

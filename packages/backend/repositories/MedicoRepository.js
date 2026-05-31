@@ -72,15 +72,15 @@ export class MedicoRepository {
     if (medico.id) {
       medicoGuardado = await this.model.findByIdAndUpdate(
         medico.id,
-        MedicoMapper.toPersistence(medico),
+        medico,
         { new: true, runValidators: true },
       );
     } else {
-      const nuevoMedico = new this.model(MedicoMapper.toPersistence(medico)); //
+      const nuevoMedico = new this.model(medico); //
       medicoGuardado = await nuevoMedico.save();
     }
     await medicoGuardado.populate([
-      "idUsuario",
+      "usuario",
       "especialidades",
       { path: "practicas", populate: { path: "especialidadPadreId" } },
       {
@@ -105,9 +105,9 @@ export class MedicoRepository {
       idUsuario,
     );
     const medico = await this.model
-      .findOne({ idUsuario: idUsuario })
+      .findOne({ usuario: idUsuario })
       .populate([
-        "idUsuario",
+        "usuario",
         "especialidades",
         "practicas",
         { path: "practicas", populate: { path: "especialidadPadreId" } },
@@ -124,7 +124,7 @@ export class MedicoRepository {
     logger.info("[MEDICO REPOSTIRORY]: " + mensaje);
 
     if (!medico) return;
-    return MedicoMapper.toDomain(medico);
+    return medico;
   }
 
   async delete(id) {

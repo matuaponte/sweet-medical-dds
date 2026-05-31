@@ -9,7 +9,10 @@ import { SedeService } from "./SedeService.js";
 import { logger } from "../config/logger.js";
 import { MedicoMapper } from "../mappers/medicoMapper.js";
 
-
+/**
+ * Clase que se encarga de la logica de negocio de los medicos
+ * @author fandino
+ */
 export class MedicoService {
   constructor({
     medicoRepository = new MedicoRepository(),
@@ -25,10 +28,20 @@ export class MedicoService {
     this.sedeService = sedeService;
   }
 
+  /**
+   * crea una lista de medicos
+   * @param {Array<{ usuarioId: string, matricula: string, nombre: string, honorario: number }>} listaMedicos
+   * @returns {Array<{ usuarioId: string, matricula: string, nombre: string, honorario: number }>}
+   */
   async crearMedicos(listaMedicos) {
     return listaMedicos.map((medicoData) => this.create(medicoData));
   }
 
+  /**
+   * crea un medico
+   * @param {{ usuarioId: string, matricula: string, nombre: string, honorario: number }} medicoData
+   * @returns {{ id: string, nombre: string, matricula: string, usuario: Object, especialidades: Array<Object>, practicas: Array<Object>, disponibilidades: Array<Object> }}
+   */
   async create(medicoData) {
     logger.info("[MEDICO SERVICE]: Obteniendo los datos necesarios para crear medico");
 
@@ -69,6 +82,10 @@ export class MedicoService {
     return medicos.map(m => this.toDto(m));
   }
 
+  /**
+   * @deprecated
+   * @description Usar findAll()
+   */
   async findAllEntities() {
     logger.info("Consultando todos los médicos como entidades de dominio");
 
@@ -270,6 +287,11 @@ export class MedicoService {
     return this.toDto(guardadoGuardado);
   }
 
+  /**
+   * Convierte un medicoDocument a DTO
+   * @param {{ id: string, nombre: string, matricula: string, usuario: Object, especialidades: Array<Object>, practicas: Array<Object>, disponibilidades: Array<Object> }} medicoDoc 
+   * @returns {{ id: string, nombre: string, matricula: string, usuario: Object, especialidades: Array<Object>, practicas: Array<Object>, disponibilidades: Array<Object> }}
+   */
   toDto(medicoDoc) {
     if (!medicoDoc) return null;
 
