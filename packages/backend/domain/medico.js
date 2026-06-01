@@ -103,11 +103,11 @@ export class Medico {
         if (!servicioAEliminar) {
             throw new Error("Servicio invalido");
         }
-        if (servicioAEliminar instanceof Especialidad) {
+        if (servicioAEliminar.tipo === "Especialidad") {
             this.especialidades = this.especialidades.filter(
                 (especialidad) => especialidad.id !== servicioAEliminar.id,
             );
-        } else if (servicioAEliminar instanceof Practica) {
+        } else if (servicioAEliminar.tipo === "Practica") {
             this.practicas = this.practicas.filter(
                 (practica) => practica.id !== servicioAEliminar.id,
             );
