@@ -88,10 +88,10 @@ export class Medico {
         if (!servicio) {
             throw new Error("Servicio invalido");
         }
-        if (servicio instanceof Especialidad) {
+        if (servicio.tipo === "Especialidad") {
             if (this.especialidades.some((e) => e.id === servicio.id)) throw new ConflictError("El medico ya tiene esa especialiad")
             this.especialidades.push(servicio);
-        } else if (servicio instanceof Practica) {
+        } else if (servicio.tipo === "Practica") {
             if (this.practicas.some((p) => p.id === servicio.id)) throw new ConflictError("El medico ya tiene esa practica");
             this.practicas.push(servicio);
         } else {
@@ -138,5 +138,9 @@ export class Medico {
         if (cantidadAntes === this.sedes.length) {
             throw new Error("La sede no estaba asociada al médico");
         }
+    }
+
+    tieneSede(sede) {
+        return this.sedes.some((s) => s.id === sede.id);
     }
 }

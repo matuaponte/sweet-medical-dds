@@ -117,7 +117,7 @@ export class MedicoService {
 
     medico.agregarSede(sede);
 
-    const medicoActualizado = await this.medicoRepository.update(medicoId, medico);
+    const medicoActualizado = await this.medicoRepository.save(medico);
     return this.toDto(medicoActualizado);
   }
 
@@ -148,21 +148,20 @@ export class MedicoService {
       throw new NotFoundError("Médico no encontrado");
     }
 
+    const sede = await this.sedeService.findEntityById(disponibilidadData.sedeId);
+    if (!sede) {
+      logger.error(`Sede con ID ${disponibilidadData.sedeId} no encontrada`);
+      throw new NotFoundError("Sede no encontrada");
+    }
+
     //Chequeo que el medico tenga la sede de la disponibilidad
-    if (!medico.sedes.some((s) => s.id === disponibilidadData.sedeId)) {
+    if (!medico.tieneSede(sede)) {
       logger.error(
         `El médico no tiene asignada la sede con ID ${disponibilidadData.sedeId}`,
       );
       throw new ConflictError("El médico no tiene asignada esa sede");
     }
 
-    const sede = await this.sedeService.findEntityById(
-      disponibilidadData.sedeId,
-    );
-    if (!sede) {
-      logger.error(`Sede con ID ${disponibilidadData.sedeId} no encontrada`);
-      throw new NotFoundError("Sede no encontrada");
-    }
     const servicio = await this.servicioService.getEntityById(
       disponibilidadData.servicioId,
     );
