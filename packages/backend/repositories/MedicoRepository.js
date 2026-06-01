@@ -4,34 +4,36 @@ import { Medico } from "../domain/medico.js";
 import { logger } from "../config/logger.js";
 import { BadRequestError } from "../errors/AppError.js";
 
+const POPULATE_MEDICO_CONFIG = [
+  "usuario",
+  "especialidades",
+  {
+    path: "practicas",
+    populate: { path: "especialidadPadre" }
+  },
+  {
+    path: "disponibilidades",
+    populate: [
+      { path: "sede" },
+      {
+        path: "servicio",
+        populate: {
+          path: "especialidadPadre",
+          strictPopulate: false
+        }
+      }
+    ],
+  },
+  "sedes",
+];
+
 export class MedicoRepository {
   constructor() {
     this.model = MedicoModel;
   }
 
   async findAll() {
-    return await this.model.find().populate([
-      "idUsuario",
-      "especialidades",
-      {
-        path: "practicas",
-        populate: { path: "especialidadPadreId" }
-      },
-      {
-        path: "disponibilidades",
-        populate: [
-          { path: "sede" },
-          {
-            path: "servicio",
-            populate: {
-              path: "especialidadPadreId",
-              strictPopulate: false
-            }
-          }
-        ],
-      },
-      "sedes",
-    ]);
+    return await this.model.find().populate(POPULATE_MEDICO_CONFIG);
   }
 
   async findById(idMedico) {
@@ -79,24 +81,24 @@ export class MedicoRepository {
       const nuevoMedico = new this.model(medico); //
       medicoGuardado = await nuevoMedico.save();
     }
-    await medicoGuardado.populate([
-      "usuario",
-      "especialidades",
-      { path: "practicas", populate: { path: "especialidadPadreId" } },
-      {
-        path: "disponibilidades",
-        populate: [
-          { path: "sede" },
-          {
-            path: "servicio",
-            populate: { path: "especialidadPadreId", strictPopulate: false },
-          },
-        ],
-      },
-      "sedes",]);
+    await medicoGuardado.populate(POPULATE_MEDICO_CONFIG);
     logger.info("[MEDICO REPOSTIRORY]: Medico guardado: ", medicoGuardado);
 
     return medicoGuardado;
+  }
+
+  async update(id, medico) {
+    logger.info("[MEDICO REPOSTIRORY]: Actualizando medico con id: ", id, "el medico es: ", medico);
+    const medicoActualizado = await this.model.findByIdAndUpdate(
+      id,
+      medico,
+      { new: true, runValidators: true }
+    ).populate(POPULATE_MEDICO_CONFIG);
+    if (!medicoActualizado) {
+      return null;
+    }
+    logger.info("[MEDICO REPOSTIRORY]: Medico actualizado: ", medicoActualizado);
+    return medicoActualizado;
   }
 
   async findByIdUsuario(idUsuario) {
@@ -106,16 +108,7 @@ export class MedicoRepository {
     );
     const medico = await this.model
       .findOne({ usuario: idUsuario })
-      .populate([
-        "usuario",
-        "especialidades",
-        "practicas",
-        { path: "practicas", populate: { path: "especialidadPadreId" } },
-        "disponibilidades",
-        { path: "disponibilidades", populate: { path: "sede" } },
-        { path: "disponibilidades", populate: { path: "servicio" } },
-        "sedes",
-      ])
+      .populate(POPULATE_MEDICO_CONFIG)
       .lean(); //TODO: faltan las sedes
 
     const mensaje = medico

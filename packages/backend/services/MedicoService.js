@@ -117,7 +117,7 @@ export class MedicoService {
 
     medico.agregarSede(sede);
 
-    const medicoActualizado = await this.medicoRepository.save(medico);
+    const medicoActualizado = await this.medicoRepository.update(medicoId, medico);
     return this.toDto(medicoActualizado);
   }
 
@@ -299,7 +299,7 @@ export class MedicoService {
       id: medicoDoc.id || medicoDoc._id,
       nombre: medicoDoc.nombre,
       matricula: medicoDoc.matricula,
-      usuario: medicoDoc.idUsuario ? this.usuarioService.toDto(medicoDoc.idUsuario) : (medicoDoc.usuario ? this.usuarioService.toDto(medicoDoc.usuario) : null),
+      usuario: medicoDoc.usuario ? this.usuarioService.toDto(medicoDoc.usuario) : null,
       especialidades: (medicoDoc.especialidades || []).map(e => this.servicioService.toDto(e)),
       practicas: (medicoDoc.practicas || []).map(p => this.servicioService.toDto(p)),
       disponibilidades: (medicoDoc.disponibilidades || []).map((d) => ({

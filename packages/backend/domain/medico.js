@@ -121,10 +121,6 @@ export class Medico {
     }
 
     agregarSede(sede) {
-        if (!(sede instanceof Sede)) {
-            throw new Error("Sede inválida");
-        }
-
         const yaTieneSede = this.sedes.some((s) => s.id === sede.id);
 
         if (yaTieneSede) {
