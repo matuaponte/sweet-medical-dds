@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./features/layout/Layout.jsx";
-
+import Home from "./features/home/Home.jsx";
 import "./App.css";
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        {/* <Route index element={<Home />} /> */}
+        <Route index element={<Home />} />
       </Route>
     </Routes>
   );
