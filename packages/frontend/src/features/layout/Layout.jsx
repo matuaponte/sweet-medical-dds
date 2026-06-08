@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import Header from "../../components/headers/Header.jsx";
 import Footer from "../../components/footers/Footer.jsx";
 import "./Layout.css";
+import { SnackbarProvider } from "../snackbar/Snackbar.jsx";
 
 const Layout = ({ carrito, eliminarTurnoDelCarrito, limpiarElCarrito, toggleTheme }) => {
   return (
@@ -16,7 +17,10 @@ const Layout = ({ carrito, eliminarTurnoDelCarrito, limpiarElCarrito, toggleThem
           toggleTheme={toggleTheme}
         />
         <main className="app-main">
-          <Outlet />
+          {/* Usa el componente que setea un estado global para que lo puedan usar todos */}
+          <SnackbarProvider>
+            <Outlet />
+          </SnackbarProvider>
         </main>
         <Footer className="app-footer" />
       </div>

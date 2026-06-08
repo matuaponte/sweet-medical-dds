@@ -10,9 +10,11 @@ import { turnosEjemplo, datosPaginacionEjemplo } from '../../mockdata/turnos.js'
 import { medicosEjemplo, especialidadesEjemplo, practicasEjemplo, sedesEjemplo } from '../../mockdata/busquedaTurnos.js';
 import { getTurnosDisponiblesFiltradoPaginado, getListadoMedicos, getListadoEspecialidades, getListadoPracticas, getListadoSedes } from '../../api/api.js';
 import './busquedaTurnos.css';
+import { useSnackbar } from '../snackbar/Snackbar.jsx';
 
 function agruparTurnos(turnos) {
     const mapa = new Map();
+    const { mostrarSnackbar } = useSnackbar();
 
     turnos.forEach((turno) => {
         const clave = [
@@ -95,6 +97,7 @@ export default function BusquedaTurnos({ idUsuario, carrito, agregarTurnoAlCarri
         const turno = turnos.find(t => t.id === id);
         agregarTurnoAlCarrito(turno);
         setCarritoAbierto(true);
+        mostrarSnackbar("Turno agregar exitosamente");
     };
     const eliminarDelCarrito = (id) => {
         eliminarTurnoDelCarrito(id);
