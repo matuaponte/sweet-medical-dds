@@ -1,0 +1,277 @@
+.reprogramar-modal {
+    width: 100%;
+    max-width: 720px;
+
+    background: white;
+    border: 1px solid #dbe7e5;
+    border-radius: 24px;
+
+    padding: 28px;
+
+    box-shadow: 0 24px 64px rgba(15, 23, 42, 0.28);
+
+    animation: modalPopIn 0.22s ease-out;
+}
+
+.reprogramar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    margin-bottom: 22px;
+}
+
+.reprogramar-header h2 {
+    margin: 0 0 6px;
+
+    color: #0f172a;
+
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.reprogramar-header p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 15px;
+}
+
+.modal-close-btn {
+    width: 36px;
+    height: 36px;
+
+    border: none;
+    border-radius: 999px;
+
+    background: #f1f5f9;
+    color: #334155;
+
+    font-size: 24px;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close-btn:hover {
+    background: #e2e8f0;
+}
+
+.turno-actual-box {
+    display: flex;
+    gap: 16px;
+
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+
+    padding: 18px;
+
+    margin-bottom: 24px;
+}
+
+.reprogramar-avatar {
+    width: 58px;
+    height: 58px;
+    border-radius: 16px;
+}
+
+.turno-actual-box h3 {
+    margin: 0;
+
+    color: #0f172a;
+
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.turno-actual-box p {
+    margin: 4px 0 12px;
+
+    color: #087f73;
+
+    font-weight: 700;
+}
+
+.reprogramar-detalles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.reprogramar-detalles span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 999px;
+
+    padding: 6px 10px;
+
+    color: #526173;
+
+    font-size: 13px;
+}
+
+.reprogramar-modal h4 {
+    margin: 0 0 14px;
+
+    color: #0f172a;
+
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.slots-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+
+    max-height: 260px;
+    overflow-y: auto;
+
+    padding-right: 4px;
+}
+
+.slot-btn {
+    border: 1px solid #dbe7e5;
+    border-radius: 14px;
+
+    background: #eaf8ee;
+
+    padding: 11px 8px;
+
+    cursor: pointer;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+
+    color: #087f73;
+
+    transition: all 0.18s ease;
+}
+
+.slot-btn svg {
+    font-size: 18px;
+}
+
+.slot-btn span {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.slot-btn strong {
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.slot-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(8, 127, 115, 0.12);
+}
+
+.slot-btn.selected {
+    background: #087f73;
+    color: white;
+    border-color: #087f73;
+}
+
+.btn-confirmar-reprogramacion {
+    border: none;
+    border-radius: 999px;
+
+    background: #087f73;
+    color: white;
+
+    padding: 11px 18px;
+
+    font-weight: 800;
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.btn-confirmar-reprogramacion:hover {
+    background: #06695f;
+}
+
+.btn-confirmar-reprogramacion:disabled {
+    background: #e2e8f0;
+    color: #94a3b8;
+    cursor: not-allowed;
+}
+
+@media (max-width: 720px) {
+    .reprogramar-modal {
+        max-width: 100%;
+        padding: 22px;
+    }
+
+    .slots-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .turno-actual-box {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 460px) {
+    .slots-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .modal-actions {
+        flex-direction: column-reverse;
+    }
+
+    .btn-no-cancelar,
+    .btn-confirmar-reprogramacion {
+        width: 100%;
+    }
+}
+
+.slots-loading {
+    min-height: 210px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 14px;
+
+    color: #64748b;
+}
+
+.medical-loader {
+    width: 54px;
+    height: 54px;
+
+    border-radius: 50%;
+
+    border: 5px solid #dbe7e5;
+    border-top-color: #087f73;
+
+    animation: medicalSpin 0.8s linear infinite;
+}
+
+.slots-loading p {
+    margin: 0;
+
+    font-size: 15px;
+    font-weight: 700;
+}
+
+@keyframes medicalSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}

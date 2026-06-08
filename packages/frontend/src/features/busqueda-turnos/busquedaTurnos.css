@@ -1,0 +1,76 @@
+:root {
+  --bg-principal: #f8fafc;
+  --blanco: #ffffff;
+  --texto-oscuro: #1e293b;
+  --texto-mutado: #64748b;
+  --borde-gris: #e2e8f0;
+}
+
+body {
+  background-color: var(--bg-principal);
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Contenedor que alinea el Sidebar (MUI) a la izquierda y el contenido a la derecha */
+.container-busqueda {
+  display: flex;
+  gap: 24px;
+  max-width: 1300px;
+  margin: 30px auto;
+  padding: 0 20px;
+  align-items: start;
+}
+
+/* Columna de la derecha donde van las tarjetas */
+.contenido-resultados {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Cabecera de resultados (Cantidad de turnos y "Ordenar por") */
+.header-resultados {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-resultados h3 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--texto-oscuro);
+  font-weight: 600;
+}
+
+.ordenar-por {
+  font-size: 13px;
+  color: var(--texto-mutado);
+  display: flex;
+  align-items: center;
+}
+
+.ordenar-por select {
+  margin-left: 8px;
+  padding: 6px 12px;
+  border: 1px solid var(--borde-gris);
+  border-radius: 8px;
+  background-color: var(--blanco);
+  color: var(--texto-oscuro);
+  cursor: pointer;
+  outline: none;
+}
+
+/* Responsivo para que en celulares se ponga uno abajo del otro */
+@media (max-width: 850px) {
+  .container-busqueda {
+    flex-direction: column;
+  }
+
+  /* Fuerza al componente de MUI a estirarse al 100% en mobile */
+  .container-busqueda aside {
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+}

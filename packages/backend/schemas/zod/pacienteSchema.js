@@ -1,5 +1,5 @@
-import { z } from "zod"
-import { objectIdSchema } from "./objectIdSchema.js"
+import { z } from "zod";
+import { objectIdSchema } from "./objectIdSchema.js";
 
 export const crearPacienteSchema = z.object({
     idUsuario: objectIdSchema("usuario"),
@@ -16,14 +16,14 @@ export const crearPacienteSchema = z.object({
         .min(1, "El plan debe ser válido")
         .optional()
         .nullable()
-})
+});
 
 export const actualizarPacienteSchema = crearPacienteSchema.partial();
 
 export const pacienteIdSchema = z.object({
     pacienteId: objectIdSchema("paciente")
-})
+});
 
 export const turnoIdSchema = z.object({
     turnoId: objectIdSchema("paciente")
-})
+});

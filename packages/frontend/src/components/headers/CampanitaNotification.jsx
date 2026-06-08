@@ -1,14 +1,15 @@
-import React from 'react';
-import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
-import NotificationsIcon from '@mui/icons-material/Notifications';
+import React from "react";
+import { Tooltip, IconButton, Badge } from "@mui/material";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 
 export default function CampanitaNotificacion() {
   return (
-    <IconButton color="inherit">
-      <Badge badgeContent={4} color="error">
-        <NotificationsIcon />
-      </Badge>
-    </IconButton>
+    <Tooltip title="Notificaciones">
+      <IconButton color="inherit" className="notification-btn">
+        <Badge badgeContent={4} color="error">
+          <NotificationsIcon />
+        </Badge>
+      </IconButton>
+    </Tooltip>
   );
 }

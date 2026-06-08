@@ -1,11 +1,11 @@
-import { actualizarPacienteSchema, crearPacienteSchema } from "../schemas/zod/pacienteSchema.js"
+import { actualizarPacienteSchema, crearPacienteSchema } from "../schemas/zod/pacienteSchema.js";
 import { idParamObjectIdSchema } from "../schemas/zod/urlSchema.js";
-import { PacienteService } from "../services/PacienteService.js"
+import { PacienteService } from "../services/PacienteService.js";
 
 export class PacienteController {
-    #pacienteService
+    #pacienteService;
     constructor(pacienteService = new PacienteService()) {
-        this.#pacienteService = pacienteService
+        this.#pacienteService = pacienteService;
     }
 
     async crear(req, res, next) {

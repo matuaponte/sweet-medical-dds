@@ -37,22 +37,8 @@ export class MedicoRepository {
     logger.info("[MEDICO REPOSTIRORY]: Buscando medico: por id", idMedico);
     const medico = await this.model
       .findById(idMedico)
-      .populate([
-        "idUsuario",
-        "especialidades",
-        { path: "practicas", populate: { path: "especialidadPadreId" } },
-        {
-          path: "disponibilidades",
-          populate: [
-            { path: "sede" },
-            {
-              path: "servicio",
-              populate: { path: "especialidadPadreId", strictPopulate: false },
-            },
-          ],
-        },
-        "sedes",
-      ]);
+      .populate(POPULATE_MEDICO_CONFIG);
+
     const mensaje = medico
       ? "Medico obtenido: " + medico
       : "No se encontro el medico con id: " + idMedico;

@@ -1,0 +1,48 @@
+/* =========================================
+   Contenedor y Botón Principal
+========================================= */
+.menu-user-container {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.menu-user-btn {
+  margin-left: 1rem !important; /* Reemplaza el sx={{ ml: 2 }} */
+}
+
+.menu-user-avatar {
+  width: 32px !important;
+  height: 32px !important;
+}
+
+/* =========================================
+   Personalización de la Caja (Paper) del Menú Desplegable
+========================================= */
+.menu-paper-custom {
+  overflow: visible !important;
+  filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.32));
+  margin-top: 12px !important;
+}
+
+/* Redimensiona los avatares que están DENTRO de los items del menú */
+.menu-paper-custom .MuiAvatar-root {
+  width: 32px;
+  height: 32px;
+  margin-left: -4px;
+  margin-right: 8px;
+}
+
+/* La "flechita" (triángulo) que apunta hacia el icono en el borde superior */
+.menu-paper-custom::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 14px;
+  width: 10px;
+  height: 10px;
+  background-color: #ffffff; /* Color de fondo del menú */
+  transform: translateY(-50%) rotate(45deg);
+  z-index: 0;
+}

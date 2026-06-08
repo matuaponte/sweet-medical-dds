@@ -18,7 +18,7 @@ export class ObraSocialService {
             id: obraSocial.id || obraSocial._id,
             nombre: obraSocial.nombre,
             planes: obraSocial.planes ? obraSocial.planes.map((plan) => this.toDtoPlan(plan)) : []
-        }
+        };
     };
 
     toDtoPlan(plan) {
@@ -37,7 +37,7 @@ export class ObraSocialService {
                 nivel: cobertura.nivel,
                 porcentajeCobertura: cobertura.porcentajeCobertura
             }))
-        }
+        };
     };
 
 
@@ -81,7 +81,7 @@ export class ObraSocialService {
     async eliminar(obraSocialId) {
         const obraSocialEliminada = await this.#obraSocialRepository.delete(obraSocialId);
         if (!obraSocialEliminada) {
-            throw new BadRequestError(`No se encontró una obra social con el ID: ${obraSocialId}`)
+            throw new BadRequestError(`No se encontró una obra social con el ID: ${obraSocialId}`);
         }
         return this.toDto(obraSocialEliminada);
     }
@@ -104,7 +104,7 @@ export class ObraSocialService {
         const serviciosFaltantes = await this.#servicioService.obtenerServiciosFaltantes(servicios);
 
         if (serviciosFaltantes.length > 0) {
-            throw new BadRequestError(`Los siguientes servicios no existen: ${serviciosFaltantes.join(', ')}`);
+            throw new BadRequestError(`Los siguientes servicios no existen: ${serviciosFaltantes.join(", ")}`);
         }
 
         const obraSocialConPlanCreado = await this.#obraSocialRepository.addPlan(obraSocial, planDto);
@@ -114,7 +114,7 @@ export class ObraSocialService {
     async actualizarPlanDeObraSocial(obraSocialId, planId, planDto = {}) {
         const obraSocialConPlanActualizado = await this.#obraSocialRepository.updatePlan(obraSocialId, planId, planDto);
         if (!obraSocialConPlanActualizado) {
-            throw new BadRequestError(`No se encontró una obra social con el ID: ${obraSocialId}`)
+            throw new BadRequestError(`No se encontró una obra social con el ID: ${obraSocialId}`);
         }
         return this.toDto(obraSocialConPlanActualizado);
     }
@@ -122,7 +122,7 @@ export class ObraSocialService {
     async eliminarPlanDeObraSocial(obraSocialId, planId) {
         const obraSocialConPlanEliminado = await this.#obraSocialRepository.deletePlan(obraSocialId, planId);
         if (!obraSocialConPlanEliminado) {
-            throw new BadRequestError(`No se encontró una obra social con el ID: ${obraSocialId}`)
+            throw new BadRequestError(`No se encontró una obra social con el ID: ${obraSocialId}`);
         }
         return this.toDto(obraSocialConPlanEliminado);
     }
@@ -138,7 +138,7 @@ export class ObraSocialService {
     async buscarTodosLosPlanesDeObraSocial(obraSocialId) {
         const planes = await this.#obraSocialRepository.findAllPlans(obraSocialId);
         if (!planes) {
-            throw new BadRequestError(`No se encontró una obra social con el ID: ${obraSocialId}`)
+            throw new BadRequestError(`No se encontró una obra social con el ID: ${obraSocialId}`);
         }
 
         const planesDto = planes.map(plan => this.toDtoPlan(plan));

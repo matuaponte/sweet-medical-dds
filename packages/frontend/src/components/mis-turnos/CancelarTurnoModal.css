@@ -1,0 +1,146 @@
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(5px);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+}
+
+.cancelar-modal {
+    width: 100%;
+    max-width: 520px;
+
+    background: white;
+    border: 1px solid #dbe7e5;
+    border-radius: 24px;
+
+    padding: 28px;
+
+    box-shadow: 0 24px 64px rgba(15, 23, 42, 0.28);
+}
+
+.cancelar-modal h2 {
+    margin: 0 0 10px;
+    color: #0f172a;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.cancelar-modal p {
+    margin: 0 0 22px;
+    color: #526173;
+    line-height: 1.6;
+}
+
+.cancelar-modal label {
+    display: block;
+    margin-bottom: 8px;
+
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.cancelar-modal textarea {
+    width: 100%;
+    min-height: 110px;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 16px;
+
+    padding: 14px;
+
+    resize: vertical;
+
+    font-family: inherit;
+    font-size: 15px;
+    color: #0f172a;
+
+    outline: none;
+}
+
+.cancelar-modal textarea:focus {
+    border-color: #087f73;
+    box-shadow: 0 0 0 3px rgba(8, 127, 115, 0.12);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+
+    margin-top: 24px;
+}
+
+.btn-no-cancelar,
+.btn-confirmar-cancelacion {
+    border-radius: 999px;
+    padding: 11px 18px;
+
+    font-weight: 800;
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.btn-no-cancelar {
+    border: 1px solid #cbd5e1;
+    background: white;
+    color: #334155;
+}
+
+.btn-no-cancelar:hover {
+    background: #f8fafc;
+}
+
+.btn-confirmar-cancelacion {
+    border: none;
+    background: #dc2626;
+    color: white;
+}
+
+.btn-confirmar-cancelacion:hover {
+    background: #b91c1c;
+}
+
+.btn-confirmar-cancelacion:disabled {
+    background: #e2e8f0;
+    color: #94a3b8;
+    cursor: not-allowed;
+}
+
+.modal-overlay {
+    animation: fadeIn 0.18s ease-out;
+}
+
+.cancelar-modal {
+    animation: modalPopIn 0.22s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes modalPopIn {
+    from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}

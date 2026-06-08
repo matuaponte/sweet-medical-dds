@@ -1,26 +1,25 @@
-import { PacienteModel } from "../schemas/dataBase/pacienteSchema.js"
+import { PacienteModel } from "../schemas/dataBase/pacienteSchema.js";
 import { logger } from "../config/logger.js";
 
 export class PacienteRepository {
-  #model
+  #model;
   constructor() {
-    this.#model = PacienteModel
+    this.#model = PacienteModel;
   }
 
   async findAll() {
     logger.info("[PACIENTE REPOSITORY]: Buscando todos los pacientes");
     const pacientes = await this.#model.find()
       .populate("idUsuario")
-      .populate("obraSocial")
+      .populate("obraSocial");
     logger.info("[PACIENTE REPOSITORY]: Pacientes obtenidos: ", pacientes);
-    return pacientes
+    return pacientes;
   }
 
   async findById(idPaciente) {
     logger.info("[PACIENTE REPOSITORY]: Buscando paciente por id: ", idPaciente);
     const paciente = await this.#model.findById(idPaciente)
-      .populate("idUsuario")
-      .populate("obraSocial")
+      .populate("idUsuario obraSocial");
     
     if (!paciente) {
       logger.info("[PACIENTE REPOSITORY]: Paciente no encontrado: ", idPaciente);
@@ -28,14 +27,14 @@ export class PacienteRepository {
     }
     
     logger.info("[PACIENTE REPOSITORY]: Paciente obtenido: ", paciente);
-    return paciente
+    return paciente;
   }
 
   async findByIdUsuario(idUsuario) {
     logger.info("[PACIENTE REPOSITORY]: Buscando paciente por id de usuario: ", idUsuario);
     const paciente = await this.#model.findOne({ idUsuario: idUsuario })
       .populate("idUsuario")
-      .populate("obraSocial")
+      .populate("obraSocial");
     
     if (!paciente) {
       logger.info("[PACIENTE REPOSITORY]: Paciente no encontrado para usuario: ", idUsuario);
@@ -43,7 +42,7 @@ export class PacienteRepository {
     }
     
     logger.info("[PACIENTE REPOSITORY]: Paciente obtenido: ", paciente);
-    return paciente
+    return paciente;
   }
 
   async save(paciente) {

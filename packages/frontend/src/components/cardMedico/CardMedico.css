@@ -1,0 +1,22 @@
+.medico-grid {
+    display: grid;
+    align-items: center;
+    grid-template-columns: auto 1fr 1fr auto;
+    grid-template-areas: 
+        "presentacion      presentacion presentacion presentacion"
+        "sede       .            .            turnos"
+    ;
+    cursor: pointer;
+    width: 25%;
+}
+.icono {grid-area: icono;}
+.presentacion {grid-area: presentacion;}
+.sede {grid-area: sede;}
+.turnos {grid-area: turnos;}
+
+.colorPrimario{
+    color: var(--color-primary)
+}
+.colorSecundario{
+    color: var(--)
+}

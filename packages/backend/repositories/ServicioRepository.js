@@ -1,5 +1,4 @@
 import { ServicioModel, EspecialidadModel, PracticaModel } from "../schemas/dataBase/servicioSchema.js";
-import { ServicioMapper } from "../mappers/servicioMapper.js";
 import { Especialidad } from "../domain/servicios/especialidad.js";
 import { Practica } from "../domain/servicios/practica.js";
 import { logger } from "../config/logger.js";
@@ -65,7 +64,7 @@ export class ServicioRepository {
 
     // Busca todos los que coincidan con el array de ids, y devuelve un array con los que no se encontraron
     async findByIds(ids) {
-        logger.info("[SERVICIO REPOSTIRORY]: Obteniendo servicios de ids: " + ids.join(', '));
+        logger.info("[SERVICIO REPOSTIRORY]: Obteniendo servicios de ids: " + ids.join(", "));
         return await this.model.find({ _id: { $in: ids } }); 
 }
 }

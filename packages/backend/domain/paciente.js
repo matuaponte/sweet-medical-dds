@@ -22,12 +22,12 @@ export class Paciente {
 
 
     asignarObraSocial(obraSocial) {
-        if (!(obraSocial instanceof ObraSocial) && !(typeof obraSocial == 'string')) { throw new Error("Obra social inválida"); }
+        if (!(obraSocial instanceof ObraSocial) && !(typeof obraSocial === "string")) { throw new Error("Obra social inválida"); }
         this.obraSocial = obraSocial;
     }
 
     asignarPlan(plan) {
-        if (!(plan instanceof Plan) && !(typeof plan == 'string')) { throw new Error("Plan inválido"); }
+        if (!(plan instanceof Plan) && !(typeof plan === "string")) { throw new Error("Plan inválido"); }
         this.plan = plan;
     }
 

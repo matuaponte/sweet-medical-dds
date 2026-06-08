@@ -23,7 +23,7 @@ const server = new Server(app);
 server.setController(
     PacienteController,
     new PacienteController()
-)
+);
 
 server.setController(
     ServicioController,

@@ -14,7 +14,7 @@ export const bodyCambioEstadoTurnoSchema = z.object({
 });
 
 export const bodyAsignarTurnoSchema = z.object({
-    costoTurno: z.number("El costo del turno debe ser un número").positive("El costo del turno debe ser un número positivo"),
+    costoTurno: z.number("El costo del turno debe ser un número").nonnegative("El costo del turno no puede ser negativo").optional(),
     pacienteId: z.string("El id del paciente debe ser un UUID válido"),
 });
 
@@ -47,7 +47,7 @@ export const turnoBaseSchema = z.object({
     servicioId: objectIdSchema("servicio"),
     estado: z.enum(EstadoTurnoEnum, { error: "El estado del turno no es válido" }),
     fechaHora: z.coerce.date({ invalid_type_error: "Fecha inválida" }),
-    costo: z.number("El costo del turno debe ser un número").positive("El costo del turno debe ser un número positivo").optional(),
+    costo: z.number("El costo del turno debe ser un número").nonnegative("El costo del turno no puede ser negativo").optional()
 });
 
 export const bodySolicitarCambioFechaSchema = z.object({

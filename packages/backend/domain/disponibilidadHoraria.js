@@ -1,8 +1,6 @@
 import { DiaSemana } from "./diaSemanaEnum.js";
 import { ErrorDatosObligatorios } from "./errores.js";
-import { Sede } from "./sede.js";
-import { Practica } from "./servicios/practica.js";
-import { Especialidad } from "./servicios/especialidad.js";
+
 
 export class DisponibilidadHoraria {
     diaSemana;

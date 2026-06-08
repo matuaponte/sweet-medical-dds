@@ -1,9 +1,8 @@
-import request from "supertest"
-import { describe, expect, jest, test, beforeEach } from "@jest/globals"
-import { buildTestApp } from "./utils/buildMedicosApp.js"
-import { Medico } from "../../domain/medico.js"
-import { Usuario } from "../../domain/usuario.js"
-import { id } from "zod/locales"
+import request from "supertest";
+import { describe, expect, jest, test, beforeEach } from "@jest/globals";
+import { buildTestApp } from "./utils/buildMedicosApp.js";
+import { Medico } from "../../domain/medico.js";
+import { Usuario } from "../../domain/usuario.js";
 
 describe("Medico API - Integración", () => {
     let app;
@@ -37,7 +36,7 @@ describe("Medico API - Integración", () => {
                     usuario: new Usuario({ id: "6a07ded13b0b9c47c60dde80", nombreUsuario: "mariagomez", password: "password" }),
                     honorario: new Number(6000),
                 })
-            ]
+            ];
             medicoRepositoryMock.findAll.mockResolvedValue(medicos);
 
             const response = await request(app).get("/medicos");

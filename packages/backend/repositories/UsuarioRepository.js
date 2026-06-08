@@ -9,9 +9,8 @@ export class UsuarioRepository {
 
     async save(usuario) {
         logger.info("[USUARIO REPOSITORY]: Guardando usuario: ", usuario);
-        let usuarioGuardado;
 
-        usuarioGuardado = await this.model.create(usuario);
+        const usuarioGuardado = await this.model.create(usuario);
 
         logger.info("[USUARIO REPOSITORY]: Usuario guardado: ", usuarioGuardado);
 

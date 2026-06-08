@@ -6,8 +6,8 @@ import { Usuario } from "./usuario.js";
 
 export class FactoryNotificacion {
   static #usuarioSistema;
- 
-  static #t(clave, params /*, idiomaDestinatario*/) {
+
+  static #t(clave, params , idiomaDestinatario) {
     return i18next.t(clave, { ns: "notificaciones", ...params });
   }
  
@@ -49,32 +49,59 @@ export class FactoryNotificacion {
 
   static crearSegunEstadoTurno(turno, remitente, destinatario) {
     switch (turno.estado) {
+      case EstadoTurnoEnum.DISPONIBLE:
+        return new Notificacion({
+          destinatario: destinatario,
+          remitente: remitente,
+          mensaje:
+            `El turno volvió a estar disponible
+            - Para el servicio: ${turno.servicio.nombre}
+            - En la sede: ${turno.sede.nombre}`
+        });
       case EstadoTurnoEnum.RESERVADO:
         return new Notificacion({
           destinatario: destinatario,
           remitente: remitente,
           mensaje:
-            `El turno fue reservado por el paciente ${remitente.nombre} 
-            ${turno.servicio instanceof Especialidad ? "para la especialidad" : "con la practica"} ${turno.servicio.nombre} 
-            en la sede ${turno.sede.nombre}`
+            `El turno fue reservado por el usuario ${remitente.nombre} 
+            - Para el servicio: ${turno.servicio.nombre}
+            - En la sede: ${turno.sede.nombre}`
         });
       case EstadoTurnoEnum.CANCELADO:
         return new Notificacion({
           destinatario: destinatario,
           remitente: remitente,
           mensaje:
-            `El turno fue cancelado por el paciente ${remitente.nombre} 
-            ${turno.servicio instanceof Especialidad ? "para la especialidad" : "con la practica"} ${turno.servicio.nombre} 
-            en la sede ${turno.sede.nombre}`
+            `El turno fue cancelado por el usuario ${remitente.nombre} 
+            - Para el servicio: ${turno.servicio.nombre}
+            - En la sede: ${turno.sede.nombre}`
         });
       case EstadoTurnoEnum.CONFIRMADO:
         return new Notificacion({
           destinatario: destinatario,
           remitente: remitente,
           mensaje:
-            `El turno fue confirmado por ${remitente.nombre}
-            ${turno.servicio instanceof Especialidad ? "para la especialidad" : "con la practica"} ${turno.servicio.nombre} 
-            en la sede ${turno.sede.nombre}`
+            `El turno fue confirmado por el usuario ${remitente.nombre}
+            - Para el servicio: ${turno.servicio.nombre} 
+            - En la sede: "${turno.sede.nombre}`
+        });
+      case EstadoTurnoEnum.REALIZADO:
+        return new Notificacion({
+          destinatario: destinatario,
+          remitente: remitente,
+          mensaje:
+            `Turno Realizado
+            - Para el servicio: ${turno.servicio.nombre}
+            - En la sede: "${turno.sede.nombre}`
+        });
+      case EstadoTurnoEnum.PENDIENTECAMBIO:
+        return new Notificacion({
+          destinatario: destinatario,
+          remitente: remitente,
+          mensaje:
+            `El turno fue puesto en pendiente de cambio por el usuario ${remitente.nombre}
+            - Para el servicio: " ${turno.servicio.nombre}
+            - En la sede: " ${turno.sede.nombre}`
         });
       default:
         throw new Error("Estado de turno desconocido");

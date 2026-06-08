@@ -18,27 +18,27 @@ const turnoSchema = new mongoose.Schema({
     historialEstado: [historialEstadoTurnoSchema],
     medico: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Medico',
+        ref: "Medico",
         required: true,
     },
     paciente: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Paciente',
+        ref: "Paciente",
         required: false,
     },
     servicio: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Servicio',
+        ref: "Servicio",
         required: false,
     },
     sede: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Sede',
+        ref: "Sede",
         required: false,
     },
     costo: {
         type: Number,
-        required: false,
+        required: true,
     },
     eliminado: {
         type: Boolean,

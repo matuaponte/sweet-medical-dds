@@ -1,0 +1,59 @@
+.turnos-empty-state {
+    min-height: 210px;
+
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px dashed #cbd5e1;
+    border-radius: 22px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 32px;
+    color: #64748b;
+}
+
+.empty-icon {
+    width: 56px;
+    height: 56px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #94a3b8;
+    margin-bottom: 12px;
+}
+
+.empty-icon svg {
+    font-size: 46px;
+}
+
+.turnos-empty-state h3 {
+    margin: 0 0 8px;
+    color: #334155;
+    font-size: 22px;
+}
+
+.turnos-empty-state p {
+    margin: 0 0 18px;
+    font-size: 15px;
+}
+
+.empty-action-btn {
+    border: none;
+    background: transparent;
+    color: #087f73;
+
+    font-size: 16px;
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+.empty-action-btn:hover {
+    text-decoration: underline;
+}

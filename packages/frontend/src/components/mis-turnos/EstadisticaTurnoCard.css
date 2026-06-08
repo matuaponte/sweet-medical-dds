@@ -1,0 +1,102 @@
+.stat-card {
+    background: white;
+    border: 2px solid #bac4c2;
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+    min-height: 120px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.stat-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-icon.azul {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.stat-icon.verde {
+    background: #dcfce7;
+    color: #059669;
+}
+
+.stat-icon.rojo {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.stat-icon.naranja {
+    background: #ffedd5;
+    color: #ea580c;
+}
+
+.stat-top p {
+    margin: 0;
+    color: #526173;
+    font-size: 17px;
+    padding-bottom: 15px;
+    font-weight: 600;
+}
+
+.stat-numero {
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1;
+    padding-left: 2px;
+    z-index: 1;
+}
+
+.stat-numero.azul {
+    color: #2563eb;
+}
+
+.stat-numero.verde {
+    color: #059669;
+}
+
+.stat-numero.rojo {
+    color: #dc2626;
+}
+
+.stat-numero.naranja {
+    color: #ea580c;
+}
+
+.turno-card,
+.turno-card-historial,
+.stat-card,
+.mis-turnos-header {
+    animation: slideFadeIn 0.25s ease-out;
+}
+
+@keyframes slideFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

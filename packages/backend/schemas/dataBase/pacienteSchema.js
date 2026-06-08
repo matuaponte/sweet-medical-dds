@@ -1,10 +1,9 @@
-import { Schema } from "mongoose";
 import { Paciente } from "../../domain/paciente.js";
 import mongoose from "mongoose";
 
-export const pacienteSchema = new Schema({
+export const pacienteSchema = new mongoose.Schema({
     idUsuario: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Usuario",
         required: true,
     }, // referenciado
@@ -21,7 +20,7 @@ export const pacienteSchema = new Schema({
         minlength: 1,
     },
     obraSocial: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "ObraSocial",
         required: false, // puede ser opcional si el paciente puede no tener obra social
     },
@@ -29,7 +28,7 @@ export const pacienteSchema = new Schema({
         type: String,
         required: false,
     },
-})
+});
 
 pacienteSchema.loadClass(Paciente);
 export const PacienteModel = mongoose.model("Paciente", pacienteSchema);

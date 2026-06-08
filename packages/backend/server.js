@@ -1,8 +1,10 @@
 import cors from "cors"; // middleware para permitir solicitudes desde diferentes orígenes (CORS)
+import swaggerUi from "swagger-ui-express"
 import { notFoundHandler } from "./middlewares/notFoundHandler.js";
 import { errorLogger } from "./middlewares/errorLogger.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { zodErrorHandler } from "./middlewares/zodErrorHandler.js";
+import { specs } from "./config/swagger.js";
 
 export class Server {
     #controllers;
@@ -35,6 +37,7 @@ export class Server {
     }
 
     configurarRutas() {
+        this.#app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs))
         this.#routes.forEach(({ path, handler }) => this.app.use(path, handler(this.getController.bind(this))));
 
         this.#app.use(zodErrorHandler);

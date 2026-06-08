@@ -1,0 +1,227 @@
+.turno-card {
+    background: white;
+    border: 2px solid #bac4c2;
+    border-radius: 22px;
+    padding: 18px 24px;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+
+    position: relative;
+    overflow: hidden;
+}
+
+.turno-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 6px;
+    height: 100%;
+
+    background: #087f73;
+    opacity: 0.9;
+}
+
+.turno-main {
+    display: flex;
+    gap: 20px;
+}
+
+.doctor-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 20px;
+    background: #e7f1ef;
+    color: #087f73;
+    font-weight: 800;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.doctor-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.doctor-avatar span {
+    font-size: 18px;
+}
+
+.turno-info {
+    flex: 1;
+}
+
+.turno-title-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.turno-title-row h3 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.especialidad {
+    margin: 4px 0 14px;
+    color: #087f73;
+    font-weight: 700;
+}
+
+.estado-badge {
+    height: fit-content;
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 800;
+    background: #e7f0ff;
+    color: #2563eb;
+}
+
+.estado-badge.confirmado,
+.estado-badge.realizado {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.estado-badge.cancelado {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.turno-detalles {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    color: #526173;
+    font-size: 14px;
+    margin-top: 6px;
+}
+
+.turno-detalles span {
+    background: #f8fafc;
+    border: 2px solid #bac4c2;
+    border-radius: 999px;
+    padding: 6px 10px;
+}
+
+.cobertura-chip {
+    display: inline-flex;
+    margin-top: 14px;
+
+    background: #e7f7f4;
+    color: #087f73;
+
+    border-radius: 999px;
+    padding: 7px 12px;
+
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.turno-footer {
+    margin-top: 14px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.turno-actions {
+    margin-top: 0;
+    display: flex;
+    gap: 12px;
+}
+
+.btn-secundario,
+.btn-cancelar {
+    height: 46px;
+    padding: 0 18px;
+
+    border-radius: 999px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-secundario {
+    border: 2px solid #bac4c2;
+    color: #526173;
+}
+
+.btn-secundario:hover {
+    background: #f8fafc;
+    transform: translateY(-1px);
+}
+
+.btn-cancelar {
+    border: 2px solid #f36969;
+    color: #f10808;
+}
+
+.btn-cancelar:hover {
+    background: #f39696;
+    transform: translateY(-1px);
+}
+
+.turno-card-historial {
+    background: white;
+    border: 2px solid #bac4c2;
+    border-radius: 18px;
+    padding: 18px 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+
+    position: relative;
+    overflow: hidden;
+}
+
+.turno-card-historial::before {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 5px;
+    height: 100%;
+
+    background: #087f73;
+}
+
+.historial-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.historial-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+}
+
+.turno-card-historial h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #0f172a;
+}
+
+.turno-card-historial p {
+    margin: 4px 0 0;
+    color: #64748b;
+    font-size: 14px;
+}

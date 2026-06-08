@@ -1,6 +1,6 @@
 .app-grid {
     display: grid;
-    grid-template-areas: 
+    grid-template-areas:
         "header"
         "main"
         "footer"
@@ -16,6 +16,12 @@
 
 .app-main {
     grid-area: main;
+    min-height: calc(100vh - 80px);
+
+    background:
+        radial-gradient(circle at 20% 10%, rgba(3, 33, 53, 0.18), transparent 30%),
+        radial-gradient(circle at 80% 70%, rgba(13, 67, 184, 0.219), transparent 34%),
+        #eef7f6 !important;
 }
 
 .app-footer {

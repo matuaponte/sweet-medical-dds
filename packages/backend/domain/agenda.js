@@ -20,10 +20,10 @@ export class Agenda {
 
                 for (const fechaHora of slots) {
                     turnos.push(new Turno({
-                        medico,
+                        medico: medico.id,
                         fechaHora,
-                        sede: disponibilidad.sede,
-                        servicio: disponibilidad.servicio,
+                        sede: disponibilidad.sede.id,
+                        servicio: disponibilidad.servicio.id,
                         estado: EstadoTurnoEnum.DISPONIBLE,
                         costo: disponibilidad.servicio.costo + medico.honorario,
                     }));
@@ -89,7 +89,7 @@ export class Agenda {
     }
 
 
-    refresacarTurnosSegunDisponibilidad({ medico }) {
+    refresacarTurnosSegunDisponibilidad({medico}) {
         return [];
     }
 }

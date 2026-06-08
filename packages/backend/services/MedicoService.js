@@ -7,8 +7,6 @@ import { DisponibilidadHoraria } from "../domain/disponibilidadHoraria.js";
 import { Medico } from "../domain/medico.js";
 import { SedeService } from "./SedeService.js";
 import { logger } from "../config/logger.js";
-import { MedicoMapper } from "../mappers/medicoMapper.js";
-
 /**
  * Clase que se encarga de la logica de negocio de los medicos
  * @author fandino
@@ -91,7 +89,7 @@ export class MedicoService {
 
     const medicosDocs = await this.medicoRepository.findAll();
 
-    return medicosDocs.map(medicoDoc => MedicoMapper.toDomain(medicoDoc));
+    return medicosDocs;
   }
 
   async delete(id) {

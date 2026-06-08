@@ -2,13 +2,13 @@ import mongoose from "mongoose";
 import { Notificacion } from "../../domain/notificacion.js";
 
 const notificacionSchema = new mongoose.Schema({
-    destinatarioId: {
+    destinatario: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Usuario",
         required: true,
         index: true
     },
-    remitenteId: {
+    remitente: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Usuario",
         required: true,

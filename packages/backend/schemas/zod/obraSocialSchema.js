@@ -1,5 +1,5 @@
-import { z } from 'zod'
-import { NivelCobertura } from '../../domain/coberturas/nivelCoberturaEnum.js'
+import { z } from "zod";
+import { NivelCobertura } from "../../domain/coberturas/nivelCoberturaEnum.js";
 
 const MIN_NOMBRE_OBRA_SOCIAL = 4;
 const MAX_NOMBRE_OBRA_SOCIAL = 50;
@@ -24,7 +24,7 @@ export const nombreObraSocialSchema = z.string({
     invalid_type_error: "El nombre de la sede debe ser una cadena de texto"
 }).min(MIN_NOMBRE_OBRA_SOCIAL, `El nombre debe tener al menos ${MIN_NOMBRE_OBRA_SOCIAL} caracteres`)
   .max(MAX_NOMBRE_OBRA_SOCIAL, `El nombre debe tener como máximo ${MAX_NOMBRE_OBRA_SOCIAL} caracteres`)
-  .regex(/^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9 ]+$/, "El nombre solo puede contener letras, números y espacios")
+  .regex(/^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9 ]+$/, "El nombre solo puede contener letras, números y espacios");
 
 const coberturaEspecialidadSchema = z.object({
   especialidad: z.string()

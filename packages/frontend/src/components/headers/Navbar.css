@@ -17,12 +17,21 @@
 }
 
 .nav-link {
-  text-decoration: none; /* Saca el subrayado típico de los enlaces */
+  text-decoration: none;
   color: #64748b;
-  font-weight: var(--font-weight-base );
+  font-weight: var(--font-weight-base);
   font-size: var(--font-size-base);
   transition: color 0.2s ease;
   padding: 0.5rem 0;
+  display: flex;
+  align-items: center; /* Centra el ícono con el texto verticalmente */
+  gap: 0.4rem; /* Agrega un pequeño espacio entre el ícono y la palabra */
+}
+
+/* Opcional: Un pequeño ajuste para que el contenedor del ícono no rompa el diseño */
+.nav-icon {
+  display: flex;
+  align-items: center;
 }
 
 /* Efecto al pasar el mouse */

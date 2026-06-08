@@ -45,7 +45,12 @@ const MedicoSchema = new mongoose.Schema(
                 ref: "Sede",
                 required: true
             }
-        ]
+        ],
+        honorario: {
+            type: Number,
+            required: true,
+            default: 0
+        }
     },
     { timestamps: true },
 );

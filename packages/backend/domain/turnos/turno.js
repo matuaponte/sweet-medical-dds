@@ -28,7 +28,7 @@ export class Turno {
     }
 
     //motivo opcional
-    actualizarEstadoTurno({ nuevoEstado, quien, motivo = undefined }) {
+    actualizarEstadoTurno({ nuevoEstado, quien, motivo = undefined,turno }) {
         if (!Object.values(EstadoTurnoEnum).includes(nuevoEstado)) {
             throw new Error("No existe ese estado");
         }
@@ -53,7 +53,7 @@ export class Turno {
         const cambioEstado = new CambioEstadoTurno({
             estado: nuevoEstado,
             usuario: quien,
-            turno: this,
+            turno: turno,
             motivo: motivo,
         });
         this.historialEstado.push(cambioEstado);

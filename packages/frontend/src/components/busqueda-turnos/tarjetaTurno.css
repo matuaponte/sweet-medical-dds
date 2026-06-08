@@ -1,0 +1,199 @@
+:root {
+    --blanco: #ffffff;
+    --texto-oscuro: #1e293b;
+    --texto-mutado: #64748b;
+    --verde-badge: #e6f4ea;
+    --verde-texto: #137333;
+    --borde-gris: #e2e8f0;
+}
+
+.tarjeta-turno {
+    background-color: var(--blanco);
+    border: 1px solid var(--borde-gris);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 1px 1px 1px grey;
+}
+
+.info-principal {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.info-medico {
+    display: flex;
+    gap: 16px;
+    flex: 1;
+}
+
+.info-lateral {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    min-width: 180px;
+}
+
+.calificacion {
+    font-size: 15px;
+    font-weight: bold;
+    color: #f59e0b;
+}
+
+.calificacion .votos {
+    color: var(--texto-mutado);
+    font-size: 10px;
+    font-weight: normal;
+    margin-left: 2px;
+}
+
+.avatar-placeholder {
+    width: 56px;
+    height: 56px;
+    background-color: #f1f5f9;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.datos-turno h4 {
+    margin: 0 0 4px 0;
+    font-size: 20px;
+    color: var(--texto-oscuro);
+    font-weight: 600;
+}
+
+.datos-turno .especialidad-practica {
+    margin: 0 0 4px 0;
+    font-size: 15px;
+    color: black;
+    font-weight: 500;
+}
+
+.datos-turno .sede {
+    margin: 0 0 10px 0;
+    font-size: 15px;
+    color: var(--texto-mutado);
+}
+
+.badge-cobertura {
+    background-color: var(--verde-badge);
+    color: var(--verde-texto);
+    font-size: 20px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 10px;
+    margin-top: 15px;
+}
+
+.costo-turno {
+    font-size: 20px;
+    color: var(--texto-oscuro);
+    font-weight: 700;
+}
+
+.seccion-inferior-turnos {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.titulo-turnos {
+    margin: 0;
+    font-size: 11px;
+    color: var(--texto-mutado);
+    font-weight: 500;
+}
+
+.seccion-turnos {
+    border-top: 1px solid var(--borde-gris);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.grid-turnos {
+    margin-top: 10px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.boton-turno {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #edf7ed;
+    border: 1px solid transparent;
+    padding: 6px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.boton-turno.seleccionado {
+    border-color: var(--verde-texto);
+    background-color: #e1f0e1;
+}
+
+.boton-turno:hover {
+    background-color: #e1f0e1;
+    border-color: var(--verde-texto);
+    transform: translateY(-1px);
+}
+
+.boton-turno:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.fecha-turno {
+    font-size: 10px;
+    color: #1e4620;
+    margin-bottom: 2px;
+}
+
+.hora-turno {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--verde-texto);
+}
+
+.acciones {
+    display: flex;
+    flex-direction: column;
+    align-items: row-reverse;
+}
+
+.boton-reservar:disabled {
+    background-color: #ccc;
+    border: none;
+    padding: 8px 8px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.boton-reservar:not(:disabled) {
+    background-color: #137333;
+    color: var(--blanco);
+    border: none;
+    padding: 8px 8px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.boton-reservar:not(:disabled):hover {
+    background-color: #0e5724;
+    transform: translateY(-1px);
+}

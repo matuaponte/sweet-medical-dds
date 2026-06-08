@@ -25,18 +25,18 @@ export class TurnoRepository {
     }
 
     async findById(id) {
-        return await this.model.findById(id).exec();
-    }
-
-    async findByIdPopulate(id) {
-        const turno = await this.model.findById(id).populate('medico paciente servicio sede').exec();
-        return turno;
+        return await this.model.findById(id)
+            .populate("medico", "nombre matricula idUsuario")
+            .populate("paciente", "nombre dni idUsuario obraSocial plan")
+            .populate("sede", "nombre direccion")
+            .populate("servicio", "nombre costo duracionTurnoEnMins")
+            .exec();
     }
 
     async save(turno) {
         const nuevoTurno = new this.model(turno);
         const saved = await nuevoTurno.save();
-        return saved.populate('medico paciente servicio sede');
+        return saved.populate("medico paciente servicio sede");
     }
 
 
@@ -85,10 +85,6 @@ disponible:
         if (filtros.sedeId !== undefined) {
             query.sede = filtros.sedeId;
         }
-        if (filtros.pacienteId !== undefined) {
-            query.paciente = filtros.pacienteId;
-        }
-
         if (filtros.fechaHoraInicio !== undefined || filtros.fechaHoraFin !== undefined) {
             query.fechaHora = {};
             if (filtros.fechaHoraInicio !== undefined) query.fechaHora.$gte = filtros.fechaHoraInicio;
@@ -105,10 +101,10 @@ disponible:
 
         const ordenamiento = {};
         if (filtros.ordenPorCosto !== undefined) {
-            ordenamiento.costoBase = filtros.ordenPorCosto === 'desc' ? -1 : 1;
+            ordenamiento.costoBase = filtros.ordenPorCosto === "desc" ? -1 : 1;
         }
         if (filtros.ordenPorFecha !== undefined) {
-            ordenamiento.fechaHora = filtros.ordenPorFecha === 'desc' ? -1 : 1;
+            ordenamiento.fechaHora = filtros.ordenPorFecha === "desc" ? -1 : 1;
         }
 
         const inicio = (numeroPagina - 1) * limitePorPagina;
@@ -116,7 +112,10 @@ disponible:
         // Ejecutar la consulta y el conteo en paralelo
         const [turnos, totalTurnos] = await Promise.all([
             this.model.find(query)
-                .populate('medico paciente servicio sede')
+                .populate("medico", "nombre matricula idUsuario")
+                .populate("paciente", "nombre dni idUsuario obraSocial plan")
+                .populate("sede", "nombre direccion")
+                .populate("servicio", "nombre costo duracionTurnoEnMins")
                 .sort(ordenamiento)
                 .skip(inicio)
                 .limit(limitePorPagina)

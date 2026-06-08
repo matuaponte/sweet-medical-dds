@@ -4,7 +4,6 @@ import { Notificacion } from "../domain/notificacion.js";
 import { UsuarioService } from "./UsuarioService.js";
 import { logger } from "../config/logger.js";
 import { Usuario } from "../domain/usuario.js";
-import { NotificacionMapper } from "../mappers/notificacionMapper.js";
 import { FactoryNotificacion } from "../domain/factoryNotificacion.js";
 
 export class NotificacionService {
@@ -16,19 +15,37 @@ export class NotificacionService {
         this.usuarioService = usuarioService;
     }
 
+    toDto(notificacion){
+        const destinatario = notificacion.destinatario;
+        const remitente = notificacion.remitente;
+        
+        return {
+            id: notificacion.id || notificacion._id,
+            destinatario: destinatario?.nombreUsuario || destinatario?.nombre || destinatario,
+            remitente: remitente?.nombreUsuario || remitente?.nombre || remitente,
+            mensaje: notificacion.mensaje,
+            fechaHoraCreacion: notificacion.fechaHoraCreacion,
+            fechaHoraLeida: notificacion.fechaHoraLeida,
+            leida: notificacion.leida,
+        };
+    }
+
     async crearNotificacion(notificacionData) {
         logger.info("[NOTIFICACIONES SERVICE]: Obteniendo datos necesarios para crear la notificacion");
-        const destinatarioObtenido = await this.usuarioService.findById(notificacionData.destinatario); //TODO: usar los metodos findEntityById para evitar conversiones innecesarias
+        const destinatarioObtenido = await this.usuarioService.findById(notificacionData.destinatario);
         const destinatario = new Usuario(destinatarioObtenido); destinatario.id = destinatarioObtenido.id;
-        notificacionData.destinatario = destinatario;
+        
         const remitenteObtenido = await this.usuarioService.findById(notificacionData.remitente);
         const remitente = new Usuario(remitenteObtenido); remitente.id = remitenteObtenido.id;
-        notificacionData.remitente = remitente;
 
-        const notificacion = new Notificacion(notificacionData);
+        const notificacion = new Notificacion({
+            destinatario: destinatario,
+            remitente: remitente,
+            mensaje: notificacionData.mensaje
+        });
         const notificacionGuardada = await this.notificacionRepository.save(notificacion);
         logger.info("[NOTIFICACIONES SERVICE]: Notificacion creada: ", notificacionGuardada);
-        return NotificacionMapper.toDTO(notificacionGuardada);
+        return this.toDto(notificacionGuardada);
     }
 
     async crearNotificacionSegunEstadoTurno(turno, remitente, destinatario) {
@@ -36,7 +53,7 @@ export class NotificacionService {
         const notificacion = FactoryNotificacion.crearSegunEstadoTurno(turno, remitente, destinatario);
         const notificacionGuardada = await this.notificacionRepository.save(notificacion);
         logger.info("[NOTIFICACIONES SERVICE]: Notificacion creada: ", notificacionGuardada);
-        return NotificacionMapper.toDTO(notificacionGuardada);
+        return this.toDto(notificacionGuardada);
     }
 
     async crearNotificacionSegunFechaTurno(turno, destinatario) {
@@ -44,21 +61,21 @@ export class NotificacionService {
         const notificacion = FactoryNotificacion.crearSegunFechaTurno(turno, destinatario);
         const notificacionGuardada = await this.notificacionRepository.save(notificacion);
         logger.info("[NOTIFICACIONES SERVICE]: Notificacion creada: ", notificacionGuardada);
-        return NotificacionMapper.toDTO(notificacionGuardada);
+        return this.toDto(notificacionGuardada);
     }
 
     async getLeidosNoLeidos(idDestinatario, leido) {
         logger.info("[NOTIFICACIONES SERVICE]: Obteniendo notificaciones " + ((leido) ? "leidas" : "no leidas") + " del usuario " + idDestinatario);
         const notificaciones = await this.notificacionRepository.getByDestinatarioIdAndLeido(idDestinatario, leido);
         logger.info("[NOTIFICACIONES SERVICE]: Se obtuvieron las notificaciones: ", notificaciones);
-        return notificaciones.map(n => NotificacionMapper.toDTO(n));
+        return notificaciones.map(n => this.toDto(n));
     }
 
     async getLeidosNoLeidosPaginado(idDestinatario, leido, page = 1, limit = 10) {
         logger.info("[NOTIFICACIONES SERVICE]: Obteniendo notificaciones " + (leido ? "leidas" : "no leidas") + " del usuario " + idDestinatario);
         const resultado = await this.notificacionRepository.getByDestinatarioIdAndLeidoPaginado(idDestinatario, leido, page, limit);
 
-        const notificaciones = resultado.data.map(n => NotificacionMapper.toDTO(n));
+        const notificaciones = resultado.data.map(n => this.toDto(n));
         logger.info("[NOTIFICACIONES SERVICE]: Se obtuvieron las notificaciones:", resultado.data);
         return {
             ...resultado,
@@ -90,12 +107,12 @@ export class NotificacionService {
 
         if (!notificacion) throw new NotFoundError("No se encontro la notificacion con el id " + idNotificacion);
         logger.info("[NOTIFICACIONES SERVICE]: Leyendo notificacion: ", idNotificacion);
-        if (notificacion.leida === true) return NotificacionMapper.toDTO(notificacion); //de ultima que tire BadRequestError
+        if (notificacion.leida === true) return this.toDto(notificacion); //de ultima que tire BadRequestError
         notificacion.marcarComoLeida();
         const notificacionGuardada = await this.notificacionRepository.save(notificacion);
         logger.info("[NOTIFICACIONES SERVICE]: Notificacion leida: ", notificacionGuardada);
 
-        return NotificacionMapper.toDTO(notificacionGuardada);
+        return this.toDto(notificacionGuardada);
     }
 
     async setUsuarioSistema(usuarioSistemaId) {
