@@ -86,11 +86,7 @@ export class Medico {
             throw new Error("Servicio invalido");
         }
         if (servicio.tipo === "Especialidad") {
-<<<<<<< HEAD
-            if (this.especialidades.some((e) => e.id === servicio.id)) throw new ConflictError("El medico ya tiene esa especialiad")
-=======
             if (this.especialidades.some((e) => e.id === servicio.id)) throw new ConflictError("El medico ya tiene esa especialiad");
->>>>>>> d4ffb82a83bfab71c7bea26c3a29f0ecaba29fbe
             this.especialidades.push(servicio);
         } else if (servicio.tipo === "Practica") {
             if (this.practicas.some((p) => p.id === servicio.id)) throw new ConflictError("El medico ya tiene esa practica");
