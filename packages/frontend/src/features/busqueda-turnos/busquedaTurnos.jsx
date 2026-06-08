@@ -14,7 +14,6 @@ import { useSnackbar } from '../snackbar/Snackbar.jsx';
 
 function agruparTurnos(turnos) {
     const mapa = new Map();
-    const { mostrarSnackbar } = useSnackbar();
 
     turnos.forEach((turno) => {
         const clave = [
@@ -46,6 +45,8 @@ function agruparTurnos(turnos) {
 }
 
 export default function BusquedaTurnos({ idUsuario, carrito, agregarTurnoAlCarrito, eliminarTurnoDelCarrito, limpiarElCarrito }) {
+    // traer la utilización del snackbar
+    const { mostrarSnackbar } = useSnackbar();
     //datos para los filtros:
     const [pacienteID, setPacienteID] = useState(""); //por ahora; hasta tener el login
     const [medicos, setMedicos] = useState(medicosEjemplo);
