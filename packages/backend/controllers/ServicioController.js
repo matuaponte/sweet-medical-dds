@@ -45,10 +45,7 @@ export class ServicioController {
             logger.info("[SERVICIOS CONTROLLER]: Obteniendo todos los servicios");
             const servicios = await this.servicioService.findAll();
             logger.info("[SERVICIOS CONTROLLER]: Servicios obtenidos:", servicios.length);
-            res.status(200).json({
-                status: "success",
-                data: servicios
-            });
+            res.status(200).json(servicios);
         } catch (error) {
             logger.error("No se pudo crear el servicio.");
             next(error);

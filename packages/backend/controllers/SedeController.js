@@ -9,10 +9,7 @@ export class SedeController {
     findAll = async (req, res, next) => {
         try {
             const sedes = await this.sedeService.findAll();
-            res.status(200).json({
-                status: "success",
-                data: sedes
-            });
+            res.status(200).json(sedes);
         } catch (error) {
             next(error);
         }

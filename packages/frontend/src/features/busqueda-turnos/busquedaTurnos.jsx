@@ -8,7 +8,7 @@ import Drawer from '@mui/material/Drawer';
 import Pagination from '@mui/material/Pagination';
 import { turnosEjemplo, datosPaginacionEjemplo } from '../../mockdata/turnos.js';
 import { medicosEjemplo, especialidadesEjemplo, practicasEjemplo, sedesEjemplo } from '../../mockdata/busquedaTurnos.js';
-import { getTurnosDisponiblesFiltradoPaginado, getListadoMedicos, getListadoEspecialidades, getListadoPracticas, getListadoSedes } from '../../api/api.js';
+import { getTurnosDisponiblesFiltradoPaginado, getListadoMedicos, getListadoEspecialidades, getListadoPracticas, getListadoSedes, getListadoServicios } from '../../api/api.js';
 import './busquedaTurnos.css';
 import { useAuth } from '../../context/AuthContext.jsx';
 
@@ -46,7 +46,7 @@ function agruparTurnos(turnos) {
 
 export default function BusquedaTurnos({ idUsuario, carrito, agregarTurnoAlCarrito, eliminarTurnoDelCarrito, limpiarElCarrito, manejoCarrito }) {
     //datos para los filtros:
-    const [pacienteID, setPacienteID] = useState(""); //por ahora; hasta tener el login
+    const [pacienteID, setPacienteID] = useState("6a0b720ada9b7c8a035d96a9"); //por ahora; hasta tener el login
     const [medicos, setMedicos] = useState(medicosEjemplo);
     const [especialidades, setEspecialidades] = useState(especialidadesEjemplo);
     const [practicas, setPracticas] = useState(practicasEjemplo);
@@ -64,34 +64,48 @@ export default function BusquedaTurnos({ idUsuario, carrito, agregarTurnoAlCarri
     useEffect(() => {
         //const {user} = useAuth(); //obtenemos el id del usuario logueado desde el contexto de autenticación
         const cargarListados = async () => {
-            /*
-            const pacienteId = await getPacienteByIdUsuario(user.id)
-            setPacienteID(pacienteId)
-            const listadoMedicos = await getListadoMedicos();
-            setMedicos(listadoMedicos);
-            const listadoServicios = await getListadoEspecialidades();
-            setEspecialidades(listadoServicios.filter(s => s.tipo === 'Especialidad));
-            setPracticas(listadoServicios.filter(s => s.tipo === 'Practica'));
-            const listadoSedes = await getListadoSedes();
-            setSedes(listadoSedes);
-        */
+            //const pacienteId = await getPacienteByIdUsuario(user.id)
+            //setPacienteID(pacienteId)
+            try {
+                /*
+                const listadoMedicos = await getListadoMedicos();
+                setMedicos(listadoMedicos);
+                const listadoServicios = await getListadoServicios();
+                const listadoEspecialidades = listadoServicios.filter(s => s.tipo === 'Especialidad');
+                const listadoPracticas = listadoServicios.filter(s => s.tipo === 'Practica');
+                console.log("servicios:", listadoServicios);
+                console.log("especialidadesList:", listadoEspecialidades);
+                console.log("practicasList:", listadoPracticas)
+                const listadoSedes = await getListadoSedes();
+                setEspecialidades(listadoEspecialidades);
+                setPracticas(listadoPracticas);
+                setSedes(listadoSedes);
+                console.log("medicos:", medicos)
+                console.log("especialidades:", especialidades);
+                console.log("practicas:", practicas);
+                console.log("sedes:", sedes);
+                */
+            } catch (e) {
+                console.error("Error cargando listados:", e);
+            }
         }
+        cargarListados();
     }, []);
 
-    const cargarTurnos = useCallback((filtros = {}) => {
+    const cargarTurnos = useCallback(async (filtros = {}) => {
         setLoading(true);
         setTimeout(() => setLoading(false), 500);
-            const filtrosCompletos = {
-                ...filtros,
-                'pacienteId': pacienteID,
-                ordenarPor: 'asc'
-            };
-            const dataPaginacion = { numeroPagina };
+        const filtrosCompletos = {
+            ...filtros,
+            'pacienteId': pacienteID,
+            ordenarPor: 'asc'
+        };
+        const dataPaginacion = { numeroPagina };
             //const turnosFiltrados = getTurnosDisponiblesFiltradoPaginado(filtros, paginacion);
             //setTurnos(response.turnos);
             //setDataPaginacion(response.paginacion);
             //setLoading(false);
-    }, [ordenarPor, numeroPagina]);
+    }, [ordenarPor, numeroPagina, pacienteID]);
 
     const agregarAlCarrito = (id) => {
         const turno = turnos.find(t => t.id === id);

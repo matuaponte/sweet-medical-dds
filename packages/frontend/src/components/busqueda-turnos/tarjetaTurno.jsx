@@ -17,7 +17,7 @@ export default function TarjetaTurno({ turno, especialidades, practicas, carrito
       return `${servicio?.nombre} • Consulta general`;
     } else {
       const practica = practicas.find((p) => p.id === servicio.id);
-      return `${especialidades.find((e) => e.id === practica.especialidadPadre)?.nombre} • ${practica.nombre}`;
+      return `${especialidades.find((e) => e.id === practica.especialidadPadreId)?.nombre} • ${practica.nombre}`;
     }
   };
   const formatoHorario = (isoString) => {
@@ -54,7 +54,7 @@ export default function TarjetaTurno({ turno, especialidades, practicas, carrito
 
         <div className="info-lateral">
                     <span className="badge-cobertura">
-                        {turno.estadoCobertura}
+                        {`Cobertura: ${turno.estadoCobertura === 'NO_CUBIERTA' ? "NO CUBIERTA" : turno.estadoCobertura}`}
                     </span>
 
           <span className="costo-turno">

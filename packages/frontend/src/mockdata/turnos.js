@@ -16,7 +16,7 @@ const turnosEjemplo = [
         },
         fechaHora: "2024-06-04T08:00:00",
         costo: 0,
-        estadoCobertura: "TOTALMENTE CUBIERTA"
+        estadoCobertura: "TOTAL"
     },
     {
         id: 2,
@@ -35,7 +35,7 @@ const turnosEjemplo = [
         },
         fechaHora: "2024-06-04T08:45:00",
         costo: 0,
-        estadoCobertura: "TOTALMENTE CUBIERTA"
+        estadoCobertura: "TOTAL"
     },
     {
         id: 3,
@@ -54,7 +54,7 @@ const turnosEjemplo = [
         },
         fechaHora: "2024-06-04T09:30:00",
         costo: 0,
-        estadoCobertura: "TOTALMENTE CUBIERTA"
+        estadoCobertura: "TOTAL"
     },
     {
         id: 4,
@@ -73,7 +73,7 @@ const turnosEjemplo = [
         },
         fechaHora: "2024-06-04T10:45:00",
         costo: 0,
-        estadoCobertura: "TOTALMENTE CUBIERTA"
+        estadoCobertura: "TOTAL"
     },
     {
         id: 5,
@@ -92,7 +92,7 @@ const turnosEjemplo = [
         },
         fechaHora: "2024-06-04T08:30:00",
         costo: 18000,
-        estadoCobertura: "PARCIALMENTE CUBIERTA"
+        estadoCobertura: "PARCIAL"
     },
     {
         id: 6,
@@ -111,7 +111,7 @@ const turnosEjemplo = [
         },
         fechaHora: "2024-06-04T09:00:00",
         costo: 18000,
-        estadoCobertura: "PARCIALMENTE CUBIERTA"
+        estadoCobertura: "PARCIAL"
     },
     {
         id: 7,
@@ -130,7 +130,7 @@ const turnosEjemplo = [
         },
         fechaHora: "2024-06-04T09:30:00",
         costo: 18000,
-        estadoCobertura: "PARCIALMENTE CUBIERTA"
+        estadoCobertura: "PARCIAL"
     },
     {
         id: 8,

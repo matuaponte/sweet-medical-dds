@@ -37,6 +37,15 @@ export class Server {
     }
 
     configurarRutas() {
+        const corsOptions = {
+            origin: process.env.ALLOWED_ORIGINS
+                ? process.env.ALLOWED_ORIGINS.split(",").map((o) => o.trim())
+                : true,
+        };
+
+        this.#app.options('/{*path}', cors(corsOptions));
+        this.#app.use(cors(corsOptions));
+
         this.#app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs))
         this.#routes.forEach(({ path, handler }) => this.app.use(path, handler(this.getController.bind(this))));
 
@@ -44,15 +53,6 @@ export class Server {
         this.#app.use(notFoundHandler);
         this.#app.use(errorLogger);
         this.#app.use(errorHandler);
-
-        this.#app.use(
-            cors({
-                origin: process.env.ALLOWED_ORIGINS
-                    ? process.env.ALLOWED_ORIGINS.split(",").map((o) => o.trim())
-                    : true,
-            }),
-        );
-
     }
 
     start() {
