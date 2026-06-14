@@ -1,15 +1,15 @@
 import "./EstadisticaTurnoCard.css";
-import CardBase from "../../shared/CardBase/CardBase";
+import BaseCard from "../../shared/BaseCard/BaseCard";
 
 export default function EstadisticaTurnoCard({ numero, texto, tipo, icono }) {
     return (
-        <CardBase className={`stat-card ${tipo}`}>
+        <BaseCard className={`stat-card ${tipo}`}>
             <div className="stat-top">
                 <div className={`stat-icon ${tipo}`}>{icono}</div>
                 <p>{texto}</p>
             </div>
 
             <span className={`stat-numero ${tipo}`}>{numero}</span>
-        </CardBase>
+        </BaseCard>
     );
 }

@@ -9,7 +9,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import "./tarjetaTurno.css";
 import { useCart } from "../../context/CartContext.jsx";
 import MedicoCard from "../../shared/MedicoCard/MedicoCard";
-import CardBase from "../../shared/CardBase/CardBase";
+import BaseCard from "../../shared/BaseCard/BaseCard.jsx";
 
 export default function TarjetaTurno({ turno, especialidades, practicas, onReservar }) {
   const [turnoSeleccionado, setTurnoSeleccionado] = useState(null);
@@ -34,7 +34,7 @@ export default function TarjetaTurno({ turno, especialidades, practicas, onReser
   };
 
   return (
-    <CardBase>
+    <BaseCard>
 
       <MedicoCard turno={turno} especialidades={especialidades} practicas={practicas}/>
 
@@ -76,6 +76,6 @@ export default function TarjetaTurno({ turno, especialidades, practicas, onReser
           </button>
         </div>
       </div>
-    </CardBase>
+    </BaseCard>
   );
 }

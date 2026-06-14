@@ -4,7 +4,7 @@ import CancelarTurnoModal from "./CancelarTurnoModal";
 import ReprogramarTurnoModal from "./ReprogramarTurnoModal";
 import { useNavigate } from "react-router-dom";
 import MedicoCard from "../../shared/MedicoCard/MedicoCard";
-import CardBase from "../../shared/CardBase/CardBase";
+import BaseCard from "../../shared/BaseCard/BaseCard";
 import { Button } from "@mui/material";
 
 export default function TurnoCard({ turno, esHistorial = false, onCancelar }) {
@@ -27,7 +27,7 @@ export default function TurnoCard({ turno, esHistorial = false, onCancelar }) {
     };
     if (esHistorial) {
         return (
-            <CardBase>
+            <BaseCard>
                 <div className="historial-info">
                     <div className="doctor-avatar historial-avatar">
                         {turno.foto ? (
@@ -58,12 +58,12 @@ export default function TurnoCard({ turno, esHistorial = false, onCancelar }) {
                 >
                     Volver a pedir
                 </Button>
-            </CardBase>
+            </BaseCard>
         );
     }
     return (
         <>
-            <CardBase>
+            <BaseCard>
 
                 <MedicoCard turno={turno}/>
 
@@ -129,7 +129,7 @@ export default function TurnoCard({ turno, esHistorial = false, onCancelar }) {
                         </div>
                     </div>
                 </div>
-            </CardBase>
+            </BaseCard>
 
             <ReprogramarTurnoModal
                 abierto={modalReprogramarAbierto}

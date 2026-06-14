@@ -14,8 +14,10 @@ import { useNavigate } from "react-router-dom";
 import Toast from "../../components/mis-turnos/Toast";
 import { proximosTurnos, historialTurnos } from "../../mockdata/turnos";
 import TituloSeccion from "../../shared/TituloSeccion/TituloSeccion";
-import CardBase from "../../shared/CardBase/CardBase";
+import BaseCard from "../../shared/BaseCard/BaseCard";
 import { Button } from "@mui/material";
+
+import TurnoHistorialCard from "../../components/cards/TurnoHistorialCard";
 
 export default function MisTurnos() {
     const [paginaProximos, setPaginaProximos] = useState(1);
@@ -58,7 +60,7 @@ export default function MisTurnos() {
     return (
         <section className="mis-turnos-page">
             <TituloSeccion>Mis Turnos</TituloSeccion>
-            <CardBase>
+            <BaseCard>
                 <div className="header-content">
                     <span className="saludo">
                         👋 Hola, <strong color="primary">Usuario</strong>
@@ -78,7 +80,7 @@ export default function MisTurnos() {
                 >
                     Nuevo turno
                 </Button>
-            </CardBase>
+            </BaseCard>
 
             <Toast
                 visible={toastVisible}
@@ -190,10 +192,9 @@ export default function MisTurnos() {
                 <>
                     <div className="turnos-lista">
                         {historialTurnosAMostrar.map((turno) => (
-                            <TurnoCard
+                            <TurnoHistorialCard
                                 key={turno.id}
                                 turno={turno}
-                                esHistorial
                             />
                         ))}
                     </div>

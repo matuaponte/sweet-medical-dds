@@ -7,7 +7,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import TituloSeccion from "../../shared/TituloSeccion/TituloSeccion";
-import CardBase from "../../shared/CardBase/CardBase"
+import BaseCard from "../../shared/BaseCard/BaseCard"
 
 const Home = () => {
 
@@ -42,7 +42,7 @@ const Home = () => {
         <h6 className="text-muted">Reservá tu turno en tres simples pasos</h6>
       </div>
       <div className="d-flex justify-content-around w-100 mt-2 p-5 gap-5">
-        <CardBase className="w-25 bg-white rounded">
+        <BaseCard className="w-25 bg-white rounded">
           <CardContent>
             <Box sx={{ display: "inline-flex"}}>
               <Typography sx={{ color: 'text.secondary', fontSize: 40 }}>
@@ -67,9 +67,9 @@ const Home = () => {
               Filtrá por especialidad, práctica, sede o rango de fechas. El sistema muestra tu cobertura automáticamente.
             </Typography>
           </CardContent>
-        </CardBase>
+        </BaseCard>
 
-        <CardBase className="w-25 bg-white rounded">
+        <BaseCard className="w-25 bg-white rounded">
           <CardContent>
             <Box sx={{ display: "inline-flex"}}>
               <Typography sx={{ color: 'text.secondary', fontSize: 40 }}>
@@ -92,9 +92,9 @@ const Home = () => {
             </Typography>
             <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>Visualizá el costo estimado según tu plan de obra social antes de confirmar la reserva.</Typography>
           </CardContent>
-        </CardBase>
+        </BaseCard>
 
-        <CardBase className="w-25 bg-white rounded">
+        <BaseCard className="w-25 bg-white rounded">
           <CardContent>
             <Box sx={{ display: "inline-flex"}}>
               <Typography sx={{ color: 'text.secondary', fontSize: 40 }}>
@@ -117,7 +117,7 @@ const Home = () => {
             </Typography>
             <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>Recibís una notificación al instante. El día previo te enviamos un recordatorio automático.</Typography>
           </CardContent>
-        </CardBase>
+        </BaseCard>
       </div>
     </div>
 
