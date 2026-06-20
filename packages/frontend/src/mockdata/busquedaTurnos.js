@@ -9,11 +9,11 @@ const especialidadesEjemplo = [
     { id: 3, nombre: "Neurología" }
 ];
 const practicasEjemplo = [
-    { id: 1, nombre: "Electrocardiograma", especialidadPadre: 1 },
-    { id: 2, nombre: "Ecocardiograma", especialidadPadre: 1 },
-    { id: 3, nombre: "Biopsia endomiocárdica", especialidadPadre: 2 },
-    { id: 4, nombre: "Valvuloplastia percutánea", especialidadPadre: 2 },
-    { id: 5, nombre: "Neurofisiología", especialidadPadre: 3 }
+    { id: 1, nombre: "Electrocardiograma", especialidadPadreId: 1 },
+    { id: 2, nombre: "Ecocardiograma", especialidadPadreId: 1 },
+    { id: 3, nombre: "Biopsia endomiocárdica", especialidadPadreId: 2 },
+    { id: 4, nombre: "Valvuloplastia percutánea", especialidadPadreId: 2 },
+    { id: 5, nombre: "Neurofisiología", especialidadPadreId: 3 }
 ];
 const sedesEjemplo = [
     { id: 1, nombre: "Sede Belgrano" },

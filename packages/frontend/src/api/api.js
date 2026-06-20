@@ -18,8 +18,9 @@ export const getTurnosDisponiblesFiltradoPaginado = async (filtros, paginacion) 
             Object.entries({ ...filtros, ...paginacion })
                 .filter(([_, v]) => v !== null && v !== undefined && v !== "")
         );
+        console.log("obteniendo turnos con los siguientes filtros: " + JSON.stringify(params))
 
-        const response = await axios.get(`${API_BASE_URL}/turnos`, { params });
+        const response = await axios.get(`${API_BASE_URL}/turno`, { params });
         return response.data;
     } catch (e) {
         console.error("Error obteniendo los turnos");

@@ -24,10 +24,12 @@ export const filtrosTurnoSchema = z.object({
     medicoId: objectIdSchema("medico").optional(),
     servicioId: objectIdSchema("servicio").optional(),
     sedeId: objectIdSchema("sede").optional(),
-    fechaHora: z.object({
-        inicio: z.coerce.date({ invalid_type_error: "Fecha de inicio inválida" }),
-        fin: z.coerce.date({ invalid_type_error: "Fecha de fin inválida" })
-    }).optional(),
+    fechaHoraInicio: z.coerce.date({ invalid_type_error: "Fecha de inicio inválida" }).optional(),
+    fechaHoraFin: z.coerce.date({ invalid_type_error: "Fecha de fin inválida" }).optional(),
+    //fechaHora: z.object({
+    //    inicio: z.coerce.date({ invalid_type_error: "Fecha de inicio inválida" }),
+    //    fin: z.coerce.date({ invalid_type_error: "Fecha de fin inválida" })
+    //}).optional(), // como se pasa por query params, no admite objetos
     ordenPorCosto: z.enum(["asc", "desc"]).optional(),
     ordenPorFecha: z.enum(["asc", "desc"]).optional()
 }).superRefine((filtros, ctx) => {

@@ -1,194 +1,194 @@
 const turnosEjemplo = [
     {
-        id: 1,
+        id: "6a19f966e9c5b75ef7f24d59",
         medico: {
-            id: 1,
+            id: "6a0a1176de9814963dfdff58",
             nombre: "Dra. María Gómez"
         },
         servicio: {
-            id: 2,
-            nombre: "Ecocardiograma",
+            id: "6a0a77feab3c257deb8ab6d2",
+            nombre: "Cirugia",
             tipo: "practica"
         },
         sede: {
-            id: 1,
-            nombre: "Sede Belgrano"
+            id: "6a0a7795ab3c257deb8ab6c8",
+            nombre: "Hospital Britanico"
         },
         fechaHora: "2024-06-04T08:00:00",
         costo: 0,
         estadoCobertura: "TOTAL"
     },
     {
-        id: 2,
+        id: "6a19f966e9c5b75ef7f24d58",
         medico: {
-            id: 1,
+            id: "6a0a1176de9814963dfdff58",
             nombre: "Dra. María Gómez"
         },
         servicio: {
-            id: 2,
-            nombre: "Ecocardiograma",
+            id: "6a0a77feab3c257deb8ab6d2",
+            nombre: "Cirugia",
             tipo: "practica"
         },
         sede: {
-            id: 1,
-            nombre: "Sede Belgrano"
+            id: "6a0a7795ab3c257deb8ab6c8",
+            nombre: "Hospital Britanico"
         },
         fechaHora: "2024-06-04T08:45:00",
         costo: 0,
         estadoCobertura: "TOTAL"
     },
     {
-        id: 3,
+        id: "6a19f966e9c5b75ef7f24558",
         medico: {
-            id: 1,
+            id: "6a0a1176de9814963dfdff58",
             nombre: "Dra. María Gómez"
         },
         servicio: {
-            id: 1,
-            nombre: "Electrocardiograma",
-            tipo: "practica"
+            id: "6a0a77bcab3c257deb8ab6cd",
+            nombre: "Cardiologia",
+            tipo: "especialidad"
         },
         sede: {
-            id: 1,
-            nombre: "Sede Belgrano"
+            id: "6a0a7795ab3c257deb8ab6c8",
+            nombre: "Hospital Britanico"
         },
         fechaHora: "2024-06-04T09:30:00",
         costo: 0,
         estadoCobertura: "TOTAL"
     },
     {
-        id: 4,
+        id: "6a19f966e9c5b75ef7f24758",
         medico: {
-            id: 1,
+            id: "6a0a1176de9814963dfdff58",
             nombre: "Dra. María Gómez"
         },
         servicio: {
-            id: 1,
-            nombre: "Electrocardiograma",
-            tipo: "practica"
+            id: "6a0a77bcab3c257deb8ab6cd",
+            nombre: "Cardiologia",
+            tipo: "especialidad"
         },
         sede: {
-            id: 1,
-            nombre: "Sede Belgrano"
+            id: "6a0a7795ab3c257deb8ab6c8",
+            nombre: "Hospital Britanico"
         },
         fechaHora: "2024-06-04T10:45:00",
         costo: 0,
         estadoCobertura: "TOTAL"
     },
-    {
-        id: 5,
-        medico: {
-            id: 2,
-            nombre: "Dra. Valentina Cruz"
-        },
-        servicio: {
-            id: 5,
-            nombre: "Neurofisiología",
-            tipo: "practica"
-        },
-        sede: {
-            id: 1,
-            nombre: "Sede Belgrano"
-        },
-        fechaHora: "2024-06-04T08:30:00",
-        costo: 18000,
-        estadoCobertura: "PARCIAL"
-    },
-    {
-        id: 6,
-        medico: {
-            id: 2,
-            nombre: "Dra. Valentina Cruz"
-        },
-        servicio: {
-            id: 5,
-            nombre: "Neurofisiología",
-            tipo: "practica"
-        },
-        sede: {
-            id: 1,
-            nombre: "Sede Belgrano"
-        },
-        fechaHora: "2024-06-04T09:00:00",
-        costo: 18000,
-        estadoCobertura: "PARCIAL"
-    },
-    {
-        id: 7,
-        medico: {
-            id: 2,
-            nombre: "Dra. Valentina Cruz"
-        },
-        servicio: {
-            id: 5,
-            nombre: "Neurofisiología",
-            tipo: "practica"
-        },
-        sede: {
-            id: 1,
-            nombre: "Sede Belgrano"
-        },
-        fechaHora: "2024-06-04T09:30:00",
-        costo: 18000,
-        estadoCobertura: "PARCIAL"
-    },
-    {
-        id: 8,
-        medico: {
-            id: 3,
-            nombre: "Dr. Juan Pérez"
-        },
-        servicio: {
-            id: 2,
-            nombre: "Dermatología",
-            tipo: "especialidad"
-        },
-        sede: {
-            id: 2,
-            nombre: "Sede Vicente López"
-        },
-        fechaHora: "2024-06-04T14:00:00",
-        costo: 25000,
-        estadoCobertura: "NO CUBIERTA"
-    },
-    {
-        id: 9,
-        medico: {
-            id: 3,
-            nombre: "Dr. Juan Pérez"
-        },
-        servicio: {
-            id: 2,
-            nombre: "Dermatología",
-            tipo: "especialidad"
-        },
-        sede: {
-            id: 2,
-            nombre: "Sede Vicente López"
-        },
-        fechaHora: "2024-06-04T14:30:00",
-        costo: 25000,
-        estadoCobertura: "NO CUBIERTA"
-    },
-    {
-        id: 10,
-        medico: {
-            id: 3,
-            nombre: "Dr. Juan Pérez"
-        },
-        servicio: {
-            id: 2,
-            nombre: "Dermatología",
-            tipo: "especialidad"
-        },
-        sede: {
-            id: 2,
-            nombre: "Sede Vicente López"
-        },
-        fechaHora: "2024-06-04T16:30:00",
-        costo: 25000,
-        estadoCobertura: "NO CUBIERTA"
-    }
+    //{
+    //    id: 5,
+    //    medico: {
+    //        id: 2,
+    //        nombre: "Dra. Valentina Cruz"
+    //    },
+    //    servicio: {
+    //        id: 5,
+    //        nombre: "Neurofisiología",
+    //        tipo: "practica"
+    //    },
+    //    sede: {
+    //        id: 1,
+    //        nombre: "Sede Belgrano"
+    //    },
+    //    fechaHora: "2024-06-04T08:30:00",
+    //    costo: 18000,
+    //    estadoCobertura: "PARCIAL"
+    //},
+    //{
+    //    id: 6,
+    //    medico: {
+    //        id: 2,
+    //        nombre: "Dra. Valentina Cruz"
+    //    },
+    //    servicio: {
+    //        id: 5,
+    //        nombre: "Neurofisiología",
+    //        tipo: "practica"
+    //    },
+    //    sede: {
+    //        id: 1,
+    //        nombre: "Sede Belgrano"
+    //    },
+    //    fechaHora: "2024-06-04T09:00:00",
+    //    costo: 18000,
+    //    estadoCobertura: "PARCIAL"
+    //},
+    //{
+    //    id: 7,
+    //    medico: {
+    //        id: 2,
+    //        nombre: "Dra. Valentina Cruz"
+    //    },
+    //    servicio: {
+    //        id: 5,
+    //        nombre: "Neurofisiología",
+    //        tipo: "practica"
+    //    },
+    //    sede: {
+    //        id: 1,
+    //        nombre: "Sede Belgrano"
+    //    },
+    //    fechaHora: "2024-06-04T09:30:00",
+    //    costo: 18000,
+    //    estadoCobertura: "PARCIAL"
+    //},
+    //{
+    //    id: 8,
+    //    medico: {
+    //        id: 3,
+    //        nombre: "Dr. Juan Pérez"
+    //    },
+    //    servicio: {
+    //        id: 2,
+    //        nombre: "Dermatología",
+    //        tipo: "especialidad"
+    //    },
+    //    sede: {
+    //        id: 2,
+    //        nombre: "Sede Vicente López"
+    //    },
+    //    fechaHora: "2024-06-04T14:00:00",
+    //    costo: 25000,
+    //    estadoCobertura: "NO CUBIERTA"
+    //},
+    //{
+    //    id: 9,
+    //    medico: {
+    //        id: 3,
+    //        nombre: "Dr. Juan Pérez"
+    //    },
+    //    servicio: {
+    //        id: 2,
+    //        nombre: "Dermatología",
+    //        tipo: "especialidad"
+    //    },
+    //    sede: {
+    //        id: 2,
+    //        nombre: "Sede Vicente López"
+    //    },
+    //    fechaHora: "2024-06-04T14:30:00",
+    //    costo: 25000,
+    //    estadoCobertura: "NO CUBIERTA"
+    //},
+    //{
+    //    id: 10,
+    //    medico: {
+    //        id: 3,
+    //        nombre: "Dr. Juan Pérez"
+    //    },
+    //    servicio: {
+    //        id: 2,
+    //        nombre: "Dermatología",
+    //        tipo: "especialidad"
+    //    },
+    //    sede: {
+    //        id: 2,
+    //        nombre: "Sede Vicente López"
+    //    },
+    //    fechaHora: "2024-06-04T16:30:00",
+    //    costo: 25000,
+    //    estadoCobertura: "NO CUBIERTA"
+    //}
 ];
 const datosPaginacionEjemplo = {
     numeroPagina: 1,

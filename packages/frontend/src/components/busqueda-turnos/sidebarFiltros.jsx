@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import {
@@ -24,15 +24,28 @@ export default function SidebarFiltros({ medicos, sedes, especialidades, practic
     const [fechaDesde, setFechaDesde] = useState('');
     const [fechaHasta, setFechaHasta] = useState('');
 
-    const filtros = {
-        'medicoId': profesional.id,
-        'estado': 'DISPONIBLE',
-        'especialidadId': especialidad.id,
-        'practicaId': practica.id,
-        'sedeId': sede.id,
-        'fechaHoraInicio': fechaDesde,
-        'fechaHoraFin': fechaHasta
-    }
+    const aplicarFiltros = (overrides = {}) => {
+        const estado = {
+            profesional, especialidad, practica, sede, fechaDesde, fechaHasta,
+            ...overrides  // pisa con los valores nuevos
+        };
+
+        let servicio = null;
+        if (estado.especialidad !== 'Todas') {
+            servicio = estado.practica !== 'Todas' ? estado.practica : estado.especialidad;
+        }
+
+        const filtrosActuales = {
+            medicoId: estado.profesional !== 'Todos' ? estado.profesional?.id : null,
+            servicioId: servicio?.id ?? null,
+            sedeId: estado.sede !== 'Todas' ? estado.sede?.id : null,
+            fechaHoraInicio: estado.fechaDesde || null,
+            fechaHoraFin: estado.fechaHasta || null
+        };
+
+        console.log("aplicando nuevos filtros: " + JSON.stringify(filtrosActuales));
+        nuevosFiltros(filtrosActuales);
+    };
 
     return (
         <Box
@@ -62,18 +75,20 @@ export default function SidebarFiltros({ medicos, sedes, especialidades, practic
                     <InputLabel id="profesional-label">Profesional</InputLabel>
                     <Select
                         labelId="profesional-label"
-                        value={profesional?.id ?? ""}
+                        value={profesional?.id ?? 'Todos'}
                         label="Profesional"
                         onChange={(e) => {
-                            const proSeleccionado = medicos.find(
+                            const profesionalSeleccionado = e.target.value === 'Todos' ? 'Todos' : medicos.find(
                                 pro => pro.id === e.target.value
                             );
 
-                            setProfesional(proSeleccionado);
-                            nuevosFiltros();
+                            setProfesional(profesionalSeleccionado);
+                            setEspecialidad('Todas');
+                            setPractica('Todas');
+                            aplicarFiltros({ profesional: profesionalSeleccionado, especialidad: 'Todas', practica: 'Todas' });
                         }}
                     >
-                        <MenuItem value="Todos">Todos</MenuItem>
+                        <MenuItem value='Todos'>Todos</MenuItem>
                         {medicos.map((pro) => (
                             <MenuItem key={pro.id} value={pro.id}>
                                 {pro.nombre}
@@ -87,19 +102,19 @@ export default function SidebarFiltros({ medicos, sedes, especialidades, practic
                     <InputLabel id="especialidad-label">Especialidad</InputLabel>
                     <Select
                         labelId="especialidad-label"
-                        value={especialidad?.id ?? ""}
+                        value={especialidad?.id ?? 'Todas'}
                         label="Especialidad"
                         onChange={(e) => {
-                            const espSeleccionada = especialidades.find(
+                            const especialidadSeleccionada = e.target.value === 'Todas' ? 'Todas' : especialidades.find(
                                 esp => esp.id === e.target.value
                             );
 
-                            setEspecialidad(espSeleccionada);
-                            setPractica("");
-                            nuevosFiltros();
+                            setEspecialidad(especialidadSeleccionada);
+                            setPractica('Todas');
+                            aplicarFiltros({ especialidad: especialidadSeleccionada, practica: 'Todas' });
                         }}
                     >
-                        <MenuItem value="Todas">Todas</MenuItem>
+                        <MenuItem value='Todas'>Todas</MenuItem>
                         {especialidades.map((esp) => (
                             <MenuItem key={esp.id} value={esp.id}>
                                 {esp.nombre}
@@ -113,16 +128,20 @@ export default function SidebarFiltros({ medicos, sedes, especialidades, practic
                     <InputLabel id="practica-label">Práctica</InputLabel>
                     <Select
                         labelId="practica-label"
-                        value={practica}
+                        value={practica?.id ?? 'Todas'}
                         label="Práctica"
                         onChange={(e) => {
-                            setPractica(e.target.value);
-                            nuevosFiltros();
+                            const practicaSeleccionada = e.target.value === 'Todas' ? 'Todas' : practicas.find(
+                                pra => pra.id === e.target.value
+                            );
+
+                            setPractica(practicaSeleccionada);
+                            aplicarFiltros({ practica: practicaSeleccionada });
                         }}
                     >
-                        <MenuItem value="Todas">Todas</MenuItem>
+                        <MenuItem value='Todas'>Todas</MenuItem>
                         {practicas
-                            .filter((practica) => practica.especialidadPadre === especialidad?.id || practica.especialidadPadre === null)
+                            .filter((practica) => practica.especialidadPadreId === especialidad?.id || practica.especialidadPadre === null)
                             .map((practica) => (
                                 <MenuItem key={practica.id} value={practica.id}>
                                     {practica.nombre}
@@ -136,16 +155,20 @@ export default function SidebarFiltros({ medicos, sedes, especialidades, practic
                     <InputLabel id="sede-label">Sede de atención</InputLabel>
                     <Select
                         labelId="sede-label"
-                        value={sede}
+                        value={sede?.id ?? "Todas"}
                         label="Sede de atención"
                         onChange={(e) => {
-                            setSede(e.target.value);
-                            nuevosFiltros();
+                            const sedeSeleccionada = e.target.value === 'Todas' ? 'Todas' : sedes.find(
+                                    sede => sede.id === e.target.value
+                            )
+
+                            setSede(sedeSeleccionada);
+                            aplicarFiltros({ sede: sedeSeleccionada });
                         }}
                     >
                         <MenuItem value="Todas">Todas</MenuItem>
                         {sedes.map((sede) => (
-                            <MenuItem key={sede.id} value={sede.nombre}>
+                            <MenuItem key={sede.id} value={sede.id}>
                                 {sede.nombre}
                             </MenuItem>
                         ))}
@@ -177,7 +200,7 @@ export default function SidebarFiltros({ medicos, sedes, especialidades, practic
                                     return;
                                 }
                                 setFechaDesde(e.target.value);
-                                nuevosFiltros();
+                                aplicarFiltros({ fechaDesde: fechaSeleccionada });
                             }}
                             fullWidth
                         />
@@ -191,7 +214,7 @@ export default function SidebarFiltros({ medicos, sedes, especialidades, practic
                             onChange={(e) => {
                                 const fechaSeleccionada = new Date(e.target.value);
                                 const hoy = new Date().setHours(0, 0, 0, 0);
-                                if (fechaSeleccionada <= hoy) {
+                                if (fechaSeleccionada < hoy) {
                                     alert("La fecha hasta no puede ser anterior a hoy.");
                                     return;
                                 }
@@ -200,7 +223,7 @@ export default function SidebarFiltros({ medicos, sedes, especialidades, practic
                                     return;
                                 }
                                 setFechaHasta(e.target.value);
-                                nuevosFiltros();
+                                aplicarFiltros({ fechaHasta: fechaSeleccionada });
                             }}
                             fullWidth
                         />

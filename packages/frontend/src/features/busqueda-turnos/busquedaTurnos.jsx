@@ -1,5 +1,5 @@
 import React, { use } from 'react';
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import SidebarFiltros from '../../components/busqueda-turnos/sidebarFiltros.jsx';
 import TarjetaTurno from '../../components/busqueda-turnos/tarjetaTurno.jsx';
 import TarjetaTurnoSkeleton from '../../components/busqueda-turnos/tarjetaTurnoSkeleton.jsx';
@@ -12,101 +12,98 @@ import { getTurnosDisponiblesFiltradoPaginado, getListadoMedicos, getListadoEspe
 import './busquedaTurnos.css';
 import { useAuth } from '../../context/AuthContext.jsx';
 
-function agruparTurnos(turnos) {
-    const mapa = new Map();
-
-    turnos.forEach((turno) => {
-        const clave = [
-            turno.medico.nombre,
-            turno.servicio.id,
-            turno.sede.nombre,
-            turno.costo,
-            turno.estadoCobertura,
-        ].join("|");
-
-        if (!mapa.has(clave)) {
-            mapa.set(clave, {
-                medico: turno.medico,
-                servicio: turno.servicio,
-                sede: turno.sede,
-                costo: turno.costo,
-                estadoCobertura: turno.estadoCobertura,
-                turnos: [],
-            });
-        }
-
-        mapa.get(clave).turnos.push({
-            id: turno.id,
-            horario: turno.fechaHora,
-        });
-    });
-
-    return Array.from(mapa.values());
-}
-
 export default function BusquedaTurnos({ idUsuario, carrito, agregarTurnoAlCarrito, eliminarTurnoDelCarrito, limpiarElCarrito, manejoCarrito }) {
     //datos para los filtros:
     const [pacienteID, setPacienteID] = useState("6a0b720ada9b7c8a035d96a9"); //por ahora; hasta tener el login
-    const [medicos, setMedicos] = useState(medicosEjemplo);
-    const [especialidades, setEspecialidades] = useState(especialidadesEjemplo);
-    const [practicas, setPracticas] = useState(practicasEjemplo);
-    const [sedes, setSedes] = useState(sedesEjemplo);
+    const [medicos, setMedicos] = useState([]);
+    const [especialidades, setEspecialidades] = useState([]);
+    const [practicas, setPracticas] = useState([]);
+    const [sedes, setSedes] = useState([]);
     //los turnos en si:
-    const [turnos, setTurnos] = useState(turnosEjemplo);
-    const [conjuntosTurnos, setConjuntosTurnos] = useState(agruparTurnos(turnosEjemplo));
-    const [dataPaginacion, setDataPaginacion] = useState(datosPaginacionEjemplo);
+    const [turnos, setTurnos] = useState([]);
+    const [conjuntosTurnos, setConjuntosTurnos] = useState([]);
+    const [dataPaginacion, setDataPaginacion] = useState({});
     const [numeroPagina, setNumeroPagina] = useState(1);
     //funcionamiento general de la vista:
-    const [ordenarPor, setOrdenarPor] = useState("ordenarPorFecha");
+    const yaCargado = useRef(false);
+    const [ordenarPor, setOrdenarPor] = useState("ordenPorFecha");
     const [carritoAbierto, setCarritoAbierto] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [sinResultados, setSinResultados] = useState(false);
+    const filtrosActualesRef = useRef({});
 
-    useEffect(() => {
-        //const {user} = useAuth(); //obtenemos el id del usuario logueado desde el contexto de autenticación
-        const cargarListados = async () => {
-            //const pacienteId = await getPacienteByIdUsuario(user.id)
-            //setPacienteID(pacienteId)
-            try {
-                /*
-                const listadoMedicos = await getListadoMedicos();
-                setMedicos(listadoMedicos);
-                const listadoServicios = await getListadoServicios();
-                const listadoEspecialidades = listadoServicios.filter(s => s.tipo === 'Especialidad');
-                const listadoPracticas = listadoServicios.filter(s => s.tipo === 'Practica');
-                console.log("servicios:", listadoServicios);
-                console.log("especialidadesList:", listadoEspecialidades);
-                console.log("practicasList:", listadoPracticas)
-                const listadoSedes = await getListadoSedes();
-                setEspecialidades(listadoEspecialidades);
-                setPracticas(listadoPracticas);
-                setSedes(listadoSedes);
-                console.log("medicos:", medicos)
-                console.log("especialidades:", especialidades);
-                console.log("practicas:", practicas);
-                console.log("sedes:", sedes);
-                */
-            } catch (e) {
-                console.error("Error cargando listados:", e);
+    const crearConjuntosTurnos = (turnos) => {
+        const mapa = new Map();
+        turnos.forEach((turno) => {
+            const clave = [
+                turno.medico?._id,
+                turno.servicio?._id,
+                turno.sede?._id,
+                turno.costo,
+                turno.estadoCobertura,
+            ].join("|");
+            if (!mapa.has(clave)) {
+                mapa.set(clave, {
+                    medico: turno.medico,
+                    servicio: turno.servicio,
+                    sede: turno.sede,
+                    costo: turno.costo,
+                    estadoCobertura: turno.estadoCobertura,
+                    turnos: [],
+                });
             }
+            mapa.get(clave).turnos.push({
+                id: turno.id,
+                horario: turno.fechaHora,
+            });
+        });
+        return Array.from(mapa.values());
+    };
+    
+    const cargarListados = async () => {
+        try {
+            //const pacienteId = await getPacienteByIdUsuario(user.id);
+            const listadoMedicos = await getListadoMedicos();
+            const listadoServicios = await getListadoServicios();
+            const listadoEspecialidades = listadoServicios.filter(s => s.tipo === 'Especialidad');
+            const listadoPracticas = listadoServicios.filter(s => s.tipo === 'Practica');
+            const listadoSedes = await getListadoSedes();
+            
+            //setPacienteID(pacienteId);
+            setMedicos(listadoMedicos);
+            setEspecialidades(listadoEspecialidades);
+            setPracticas(listadoPracticas);
+            setSedes(listadoSedes);
+        } catch (e) {
+            console.error("Error cargando listados:", e);
         }
-        cargarListados();
-    }, []);
-
-    const cargarTurnos = useCallback(async (filtros = {}) => {
+    };
+    
+    const nuevosFiltros = async (filtrosInput = {}) => {
+        filtrosActualesRef.current = filtrosInput;
+        cargarTurnos(filtrosInput);
+    };
+    
+    const cargarTurnos = useCallback(async (filtrosInput = {}, pagina = numeroPagina, orden = ordenarPor) => {
         setLoading(true);
-        setTimeout(() => setLoading(false), 500);
-        const filtrosCompletos = {
-            ...filtros,
-            'pacienteId': pacienteID,
-            ordenarPor: 'asc'
+        setSinResultados(false);
+        const page = { 
+            'page': pagina
         };
-        const dataPaginacion = { numeroPagina };
-            //const turnosFiltrados = getTurnosDisponiblesFiltradoPaginado(filtros, paginacion);
-            //setTurnos(response.turnos);
-            //setDataPaginacion(response.paginacion);
-            //setLoading(false);
+        const filtrosCompletos = {
+            ...filtrosInput,
+            estado: 'DISPONIBLE',
+            pacienteId: pacienteID,
+            orden: "asc"
+        };
+        const turnosFiltrados = await getTurnosDisponiblesFiltradoPaginado(filtrosCompletos, page);
+        setTurnos(turnosFiltrados.data);
+        if (turnosFiltrados.data.length === 0) setSinResultados(true);
+        setConjuntosTurnos(crearConjuntosTurnos(turnosFiltrados.data));
+        setDataPaginacion(turnosFiltrados.paginacion);
+        setLoading(false);
     }, [ordenarPor, numeroPagina, pacienteID]);
-
+    
     const agregarAlCarrito = (id) => {
         const turno = turnos.find(t => t.id === id);
         agregarTurnoAlCarrito(turno);
@@ -115,10 +112,18 @@ export default function BusquedaTurnos({ idUsuario, carrito, agregarTurnoAlCarri
     const eliminarDelCarrito = (id) => {
         eliminarTurnoDelCarrito(id);
     };
+    
+    useEffect(() => { //renderizado inicial
+        if (yaCargado.current) return;
+        yaCargado.current = true;
 
-    useEffect(() => {
-        cargarTurnos();
-    }, [cargarTurnos]);
+        const cargarTodo = async () => {
+            await cargarListados();
+            await cargarTurnos();
+        };
+
+        cargarTodo();
+    }, []);
 
     return (
         <div className="container-busqueda">
@@ -129,23 +134,26 @@ export default function BusquedaTurnos({ idUsuario, carrito, agregarTurnoAlCarri
                 sedes={sedes}
                 especialidades={especialidades}
                 practicas={practicas}
-                nuevosFiltros={cargarTurnos}
+                nuevosFiltros={nuevosFiltros}
             />
 
-            {/* Contenedor de Resultados del lado derecho */}
+            {/* Contenedor de Resultados */}
             <main className="contenido-resultados">
                 <header className="header-resultados">
-                    <h3>{dataPaginacion.totalResultados} turnos disponibles</h3>
+                    <h3>{dataPaginacion.totalTurnos} turnos disponibles</h3>
                     <div className="ordenar-por">
                         <label>Ordenar por:</label>
-                        <select defaultValue="ordenarPorFecha" onChange={(e) => setOrdenarPor(e.target.value)}>
-                            <option value="ordenarPorFecha">Fecha (más próximos)</option>
-                            <option value="ordenarPorCosto">Costo (más barato)</option>
+                        <select defaultValue="ordenPorFecha" onChange={(e) => {
+                                setOrdenarPor(e.target.value);
+                                cargarTurnos(filtrosActualesRef.current, null, e.target.value);
+                            }}>
+                            <option value="ordenPorFecha">Fecha (más próximos)</option>
+                            <option value="ordenPorCosto">Costo (más barato)</option>
                         </select>
                     </div>
                 </header>
 
-                {/* Listado dinámico de las tarjetas médicas */}
+                {/* Listado dinámico de las tarjetas de turnos */}
                 <section className="lista-turno">
                     {loading
                         ? Array.from({ length: dataPaginacion.limitePorPagina }).map((_, i) => ( //que la cantidad de skeletons sea igual al tamaño de pagina
@@ -166,7 +174,7 @@ export default function BusquedaTurnos({ idUsuario, carrito, agregarTurnoAlCarri
                     page={numeroPagina}
                     onChange={(e, page) => {
                         setNumeroPagina(page);
-                        cargarTurnos();
+                        cargarTurnos(filtrosActualesRef.current, page);
                     }}
                 />
             </main>

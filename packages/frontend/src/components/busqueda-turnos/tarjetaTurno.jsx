@@ -13,10 +13,12 @@ export default function TarjetaTurno({ turno, especialidades, practicas, carrito
   const [turnosReservados, setTurnosReservados] = useState(new Set());
 
   const formatoServicio = (servicio) => {
-    if (servicio.tipo === "especialidad") {
+    if (servicio.tipo === "Especialidad") {
       return `${servicio?.nombre} • Consulta general`;
     } else {
+      console.log("practicas que me tiene las bolas llenas: " + JSON.stringify(practicas));
       const practica = practicas.find((p) => p.id === servicio.id);
+      console.log("practica que me tiene las bolas llenas: " + JSON.stringify(practica));
       return `${especialidades.find((e) => e.id === practica.especialidadPadreId)?.nombre} • ${practica.nombre}`;
     }
   };
