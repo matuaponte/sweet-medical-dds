@@ -2,128 +2,81 @@ import { Notificacion } from "./notificacion.js";
 import { EstadoTurnoEnum } from "./turnos/estadoTurnoEnum.js";
 import { Especialidad } from "./servicios/especialidad.js";
 import { Usuario } from "./usuarios/usuario.js";
-//import {i18next} from "./config/i18n.js";
+import { NOTIFICACIONES_ESP } from "../config/notificacionesConstantes.js";
 
 export class FactoryNotificacion {
   static #usuarioSistema;
 
-  static #t(clave, params , idiomaDestinatario) {
-    return i18next.t(clave, { ns: "notificaciones", ...params });
+  // Reemplazo de i18next por un helper de reemplazo simple
+  static #t(clave, params) {
+    const partes = clave.split(".");
+    let template = NOTIFICACIONES_ESP;
+    for (const parte of partes) {
+      if (template[parte] === undefined) {
+        return clave; // Fallback si no existe la clave
+      }
+      template = template[parte];
+    }
+    
+    if (typeof template !== "string") {
+      return template;
+    }
+
+    let result = template;
+    if (params) {
+      for (const key in params) {
+        result = result.replace(new RegExp(`{${key}}`, "g"), params[key]);
+      }
+    }
+    return result;
   }
  
-  static #params(turno, destinatario) {
+  static #params(turno, remitenteNombre, destinatarioNombre) {
     const esEspecialidad = turno.servicio instanceof Especialidad;
     return {
-      paciente:     turno.paciente.nombre,
-      medico:       turno.medico.nombre,
+      remitenteNombre: remitenteNombre,
+      destinatario: destinatarioNombre,
       tipoServicio: this.#t(esEspecialidad ? "tipoServicio.especialidad" : "tipoServicio.practica"),
-      destinatario: destinatario.nombre,
-      servicio:     turno.servicio.nombre,
-      sede:         turno.sede.nombre,
+      servicio:     turno.servicio?.nombre || "",
+      sede:         turno.sede?.nombre || "",
     };
   }
  
-  static crearSegunEstadoTurnoI(turno, remitente, destinatario) {
-    const claveEstado = `estados.${turno.estado}`;
-    if (!i18next.exists(claveEstado, { ns: "notificaciones" })) {
-      throw new Error(`Estado de turno desconocido: ${turno.estado}`);
-    }
- 
-    return new Notificacion({
-      destinatario: destinatario,
-      remitente:    remitente,
-      mensaje:      this.#t(claveEstado, this.#params(turno, destinatario /*, destinatario.idioma */)),
-    });
-  }
-  
-  static crearSegunFechaTurnoI(turno, destinatario) {
-    const esMañana = turno.fechaHora.getDay() === new Date().getDay() + 1;
-    if (!esMañana) return null;
- 
-    return new Notificacion({
-      destinatario: destinatario,
-      remitente:    this.#usuarioSistema,
-      mensaje:      this.#t("recordatorio", this.#params(turno, destinatario /*, destinatario.idioma */)),
-    });
-  }
-
   static crearSegunEstadoTurno(turno, remitente, destinatario) {
     const remitenteId = remitente?.idUsuario || remitente?.usuario;
     const destinatarioId = destinatario?.idUsuario || destinatario?.usuario;
     const remitenteNombre = remitente?.nombre || "Usuario";
-    
-    switch (turno.estado) {
-      case EstadoTurnoEnum.DISPONIBLE:
-        return new Notificacion({
-          destinatario: destinatarioId,
-          remitente: remitenteId,
-          mensaje:
-            `El turno volvió a estar disponible
-            - Para el servicio: ${turno.servicio.nombre}
-            - En la sede: ${turno.sede.nombre}`
-        });
-      case EstadoTurnoEnum.RESERVADO:
-        return new Notificacion({
-          destinatario: destinatarioId,
-          remitente: remitenteId,
-          mensaje:
-            `El turno fue reservado por el usuario ${remitenteNombre} 
-            - Para el servicio: ${turno.servicio.nombre}
-            - En la sede: ${turno.sede.nombre}`
-        });
-      case EstadoTurnoEnum.CANCELADO:
-        return new Notificacion({
-          destinatario: destinatarioId,
-          remitente: remitenteId,
-          mensaje:
-            `El turno fue cancelado por el usuario ${remitenteNombre} 
-            - Para el servicio: ${turno.servicio.nombre}
-            - En la sede: ${turno.sede.nombre}`
-        });
-      case EstadoTurnoEnum.CONFIRMADO:
-        return new Notificacion({
-          destinatario: destinatarioId,
-          remitente: remitenteId,
-          mensaje:
-            `El turno fue confirmado por el usuario ${remitenteNombre}
-            - Para el servicio: ${turno.servicio.nombre} 
-            - En la sede: "${turno.sede.nombre}`
-        });
-      case EstadoTurnoEnum.REALIZADO:
-        return new Notificacion({
-          destinatario: destinatarioId,
-          remitente: remitenteId,
-          mensaje:
-            `Turno Realizado
-            - Para el servicio: ${turno.servicio.nombre}
-            - En la sede: "${turno.sede.nombre}`
-        });
-      case EstadoTurnoEnum.PENDIENTECAMBIO:
-        return new Notificacion({
-          destinatario: destinatarioId,
-          remitente: remitenteId,
-          mensaje:
-            `El turno fue puesto en pendiente de cambio por el usuario ${remitenteNombre}
-            - Para el servicio: " ${turno.servicio.nombre}
-            - En la sede: " ${turno.sede.nombre}`
-        });
-      default:
-        throw new Error("Estado de turno desconocido");
-    }
-  }
+    const destinatarioNombre = destinatario?.nombre || "Usuario";
 
-  static crearSegunFechaTurno (turno, destinatario) {
-    if(turno.fechaHora.getDay() === new Date().getDay() + 1) {
+    const claveEstado = `estados.${turno.estado}`;
+
+    return new Notificacion({
+      destinatario: destinatarioId,
+      remitente:    remitenteId,
+      mensaje:      this.#t(claveEstado, this.#params(turno, remitenteNombre, destinatarioNombre)),
+    });
+  }
+  
+  static crearSegunFechaTurno(turno, destinatario) {
+    const mañana = new Date();
+    mañana.setDate(mañana.getDate() + 1);
+    
+    const fechaTurno = new Date(turno.fechaHora);
+    if (fechaTurno.getDate() === mañana.getDate() &&
+        fechaTurno.getMonth() === mañana.getMonth() &&
+        fechaTurno.getFullYear() === mañana.getFullYear()) {
+      
+      const destinatarioId = destinatario?.idUsuario || destinatario?.usuario;
+      const destinatarioNombre = destinatario?.nombre || "Usuario";
+      const remitenteId = this.#usuarioSistema?.id || this.#usuarioSistema?._id || "sistema";
+
       return new Notificacion({
-          destinatario: destinatario,
-          remitente: this.#usuarioSistema,
-          mensaje:
-            `Hola, señor/a ${destinatario.nombre}! Desde Sweet Medical le recordamos que su turno
-            ${turno.servicio instanceof Especialidad ? "para la especialidad" : "con la practica"} ${turno.servicio.nombre} 
-            en la sede ${turno.sede.nombre} 
-            es el día de mañana.`
-        });
+        destinatario: destinatarioId,
+        remitente:    remitenteId,
+        mensaje:      this.#t("recordatorio", this.#params(turno, "Sistema", destinatarioNombre)),
+      });
     }
+    return null;
   }
  
   static setUsuarioSistema(usuario) {

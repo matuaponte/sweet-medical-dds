@@ -1,0 +1,15 @@
+export const NOTIFICACIONES_ESP = {
+  tipoServicio: {
+    especialidad: "para la especialidad",
+    practica: "con la practica"
+  },
+  estados: {
+    DISPONIBLE: "El turno volvió a estar disponible {tipoServicio} {servicio} en la sede {sede}",
+    RESERVADO: "El turno fue reservado por {remitenteNombre} {tipoServicio} {servicio} en la sede {sede}",
+    CANCELADO: "El turno fue cancelado por {remitenteNombre} {tipoServicio} {servicio} en la sede {sede}",
+    CONFIRMADO: "El turno fue confirmado por {remitenteNombre} {tipoServicio} {servicio} en la sede {sede}",
+    REALIZADO: "El turno {tipoServicio} {servicio} en la sede {sede} fue realizado",
+    PENDIENTECAMBIO: "El turno fue puesto en pendiente de cambio por {remitenteNombre} {tipoServicio} {servicio} en la sede {sede}"
+  },
+  recordatorio: "Hola, señor/a {destinatario}! Desde Sweet Medical le recordamos que su turno {tipoServicio} {servicio} en la sede {sede} es el día de mañana."
+};

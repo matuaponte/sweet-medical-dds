@@ -1,5 +1,5 @@
 import i18next from "i18next";
-import notificaciones_esp from "../i18n/notificaciones.esp.i18n.json";
+import notificaciones_esp from "../i18n/notificaciones.esp.i18n.json" with { type: "json" };
 // import notificaciones_eng from "./notificaciones.eng.i18n.json"; // ejemplo para agregar inglés
  
 await i18next.init({

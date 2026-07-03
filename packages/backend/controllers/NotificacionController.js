@@ -89,16 +89,21 @@ export class NotificacionController {
         }
     };
 
-    leer = async (req, res, next) => {
+    actualizarEstadoLeido = async (req, res, next) => {
         try {
             const { idNotificacion } = notificacionIdParamsSchema.parse(req.params);
-            logger.info("[NOTIFICACIONES CONTROLLER]: Leyendo notificacion: ", idNotificacion);
-            const notificacion = await this.notificacionService.leer(idNotificacion);
-            logger.info("[NOTIFICACIONES CONTROLLER]: Notificacion leida: ", notificacion);
+            const { leida } = req.body;
+            if (typeof leida !== "boolean") {
+                throw new BadRequestError("El campo 'leida' es obligatorio y debe ser un booleano.");
+            }
+            logger.info(`[NOTIFICACIONES CONTROLLER]: Actualizando estado leido a ${leida} para notificacion: ${idNotificacion}`);
+            const notificacion = await this.notificacionService.actualizarEstadoLeido(idNotificacion, leida);
             res.status(200).json({
                 status: "success",
                 data: notificacion,
-                message: "Notificación leída exitosamente."
+                message: leida
+                    ? "Notificación marcada como leída exitosamente."
+                    : "Notificación marcada como no leída exitosamente."
             });
         } catch (error) {
             next(error);

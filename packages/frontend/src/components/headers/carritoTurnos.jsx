@@ -56,10 +56,10 @@ export default function CarritoTurnos({ items, onEliminar, onConfirmar, onCerrar
               <CloseIcon fontSize="small" />
             </IconButton>
 
-            <Typography fontWeight={700} fontSize={14}>{item.medico.nombre}</Typography>
-            <Typography fontSize={13} sx={{ color: 'var(--color-info)' }}>{item.servicio.nombre}</Typography>
+            <Typography fontWeight={700} fontSize={14}>{item.medico?.nombre || 'Médico no disponible'}</Typography>
+            <Typography fontSize={13} sx={{ color: 'var(--color-info)' }}>{item.servicio?.nombre || 'Servicio no disponible'}</Typography>
             <Typography fontSize={13} sx={{ color: 'var(--color-text-muted)' }}>{item.fechaHora}</Typography>
-            <Typography fontSize={13} sx={{ color: 'var(--color-text-muted)' }}>{item.sede.nombre}</Typography>
+            <Typography fontSize={13} sx={{ color: 'var(--color-text-muted)' }}>{item.sede?.nombre || 'Sede no disponible'}</Typography>
 
             <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mt: 1 }}>
               <span className={`badge-cobertura ${item.estadoCobertura === 'TOTAL' ? 'cubierto' : item.estadoCobertura === 'PARCIAL' ? 'parcial' : 'no-cubierto'}`}>

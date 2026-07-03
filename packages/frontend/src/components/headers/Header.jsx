@@ -3,6 +3,7 @@ import Navbar from "./Navbar.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import MenuUsuario from "./MenuUsuario.jsx";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import CampanitaNotificacion from "./CampanitaNotification.jsx";
 import { useState, useEffect } from "react";
 import CarritoTurnos from "./carritoTurnos.jsx";
 import ModalLogin from "../login/ModalLogin.jsx";
@@ -93,6 +94,8 @@ const Header = () => {
               <ShoppingCartIcon sx={{ color: "primary" }} />
             </Badge>
           </IconButton>
+
+          {user && <CampanitaNotificacion />}
 
           {user ? (
             <MenuUsuario

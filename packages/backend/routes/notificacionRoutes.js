@@ -94,9 +94,9 @@ export default function notificacionRoutes(getController) {
     
     /**
      * @swagger
-     * /usuarios/{idUsuario}/notificaciones/{idNotificacion}/leer:
+     * /usuarios/{idUsuario}/notificaciones/{idNotificacion}:
      *   patch:
-     *     summary: Marcar notificación como leída
+     *     summary: Actualizar estado de lectura de una notificación
      *     tags: [Notificaciones]
      *     parameters:
      *       - in: path
@@ -109,9 +109,20 @@ export default function notificacionRoutes(getController) {
      *         required: true
      *         schema:
      *           $ref: '#/components/schemas/ObjectId'
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             properties:
+     *               leida:
+     *                 type: boolean
+     *                 description: Nuevo estado de lectura de la notificación
+     *             required: [leida]
      *     responses:
      *       200:
-     *         description: Notificación marcada como leída
+     *         description: Estado de la notificación actualizado
      *         content:
      *           application/json:
      *             schema:
@@ -120,11 +131,11 @@ export default function notificacionRoutes(getController) {
      *                 status: { type: string, example: "success" }
      *                 data:
      *                   $ref: '#/components/schemas/Notificacion'
-     *                 message: { type: string, example: "Notificación leída exitosamente." }
+     *                 message: { type: string, example: "Notificación marcada como leída exitosamente." }
      *       400:
      *         $ref: '#/components/responses/E400'
      */
-    router.route("/:idNotificacion/leer").patch((req, res, next) => notificacionController.leer(req, res, next));
+    router.route("/:idNotificacion").patch((req, res, next) => notificacionController.actualizarEstadoLeido(req, res, next));
 
     return router;
 }

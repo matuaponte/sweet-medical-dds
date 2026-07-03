@@ -8,6 +8,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { AuthProvider } from './context/AuthContext.jsx';
 import { ThemeContextProvider } from './context/ThemeContext.jsx';
+import { NotificationProvider } from './context/NotificationContext.jsx';
 
 function Root() {
   return (
@@ -24,7 +25,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <AuthProvider>
-      <Root />
+      <NotificationProvider>
+        <Root />
+      </NotificationProvider>
     </AuthProvider>
   </React.StrictMode>
 );

@@ -98,16 +98,22 @@ export class NotificacionService {
         };
     }*/
 
-    async leer(idNotificacion) {
-        logger.info("[NOTIFICACIONES SERVICE]: Obteniendo los datos necesarios para leer la notificacion");
+    async actualizarEstadoLeido(idNotificacion, leida) {
+        logger.info(`[NOTIFICACIONES SERVICE]: Actualizando estado 'leida' a ${leida} para notificacion: ${idNotificacion}`);
         const notificacion = await this.notificacionRepository.getById(idNotificacion);
 
         if (!notificacion) throw new NotFoundError("No se encontro la notificacion con el id " + idNotificacion);
-        logger.info("[NOTIFICACIONES SERVICE]: Leyendo notificacion: ", idNotificacion);
-        if (notificacion.leida === true) return this.toDto(notificacion); //de ultima que tire BadRequestError
-        notificacion.marcarComoLeida();
+        
+        if (leida) {
+            if (notificacion.leida === true) return this.toDto(notificacion);
+            notificacion.marcarComoLeida();
+        } else {
+            if (notificacion.leida === false) return this.toDto(notificacion);
+            notificacion.marcarComoNoLeida();
+        }
+
         const notificacionGuardada = await this.notificacionRepository.save(notificacion);
-        logger.info("[NOTIFICACIONES SERVICE]: Notificacion leida: ", notificacionGuardada);
+        logger.info("[NOTIFICACIONES SERVICE]: Notificacion guardada con nuevo estado leida:", notificacionGuardada);
 
         return this.toDto(notificacionGuardada);
     }
