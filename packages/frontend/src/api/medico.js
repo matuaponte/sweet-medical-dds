@@ -1,6 +1,6 @@
 import axiosInstance from "./axiosInstance";
 
-export const getMedicoByIdUsuario = async () => {
+export const getMiPerfilMedico= async () => {
     try {
         const response = await axiosInstance.get(`/medicos/me`);
         return response.data;

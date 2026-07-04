@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {useAlert} from '../../context/AlertContext.jsx';
-import {useAuth} from '../../context/AuthContext.jsx';
 
 // Hooks
 import useMedicoProfile from './hooks/useMedicoProfile.js';
@@ -26,7 +25,6 @@ import ModalAlerta from './modals/ModalAlerta';
 import './PerfilMedico.css';
 
 export default function PerfilMedico() {
-  const { user } = useAuth();
   const { medico: medicoInicial, cargando, error } = useGetMiPerfilMedico();
 
   if (cargando) return <PerfilMedicoSkeleton />;

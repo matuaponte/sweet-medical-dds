@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { 
-  getMedicoByIdUsuario,
+  getMiPerfilMedico,
   agregarServicio,
   eliminarServicio,
   agregarDisponibilidad,
@@ -21,7 +21,7 @@ export const useGetMiPerfilMedico = () => {
       try {
         setCargando(true);
         setError(null);
-        const datos = await getMedicoByIdUsuario();
+        const datos = await getMiPerfilMedico();
         setMedico(datos);
       } catch (err) {
         setError(err);
