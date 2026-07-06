@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: smc-backend
+    runtime: docker
+    plan: free
+    dockerContext: ./backend
+    dockerfilePath: ./backend/Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: SERVER_PORT
+        value: 3000
+      - key: MONGODB_URI
+        sync: false
+      - key: MONGODB_DB_NAME
+        value: Sweet-Medical-Cloud
+      - key: ALLOWED_ORIGINS
+        sync: false
+
+  - type: web
+    name: smc-frontend
+    runtime: docker
+    plan: free
+    dockerContext: ./frontend
+    dockerfilePath: ./frontend/Dockerfile
+    envVars:
+      - key: REACT_APP_API_URL
+        sync: false

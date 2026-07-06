@@ -29,7 +29,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # copiar el resultado del build al directorio web de nginx
-COPY --from=build /app/build /usr/share/share/nginx/html
+COPY --from=build /app/build /usr/share/nginx/html
 
 # Script de inyección de variables de entorno en runtime.
 # nginx:alpine ejecuta automáticamente todos los scripts en
