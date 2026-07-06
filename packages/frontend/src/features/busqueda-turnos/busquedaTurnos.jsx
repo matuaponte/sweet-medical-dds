@@ -78,7 +78,6 @@ export default function BusquedaTurnos() {
         [order]: 'asc',
       };
 
-<<<<<<< HEAD
         try {
             const response = await getTurnosDisponiblesFiltradoPaginado(completeFilters, pageParam);
             setTurnos(response.data);
@@ -94,19 +93,6 @@ export default function BusquedaTurnos() {
         } finally {
             setLoading(false);
         }
-=======
-      try {
-        const response = await getTurnosDisponiblesFiltradoPaginado(completeFilters, pageParam);
-        setTurnos(response.data);
-        setNoResults(response.data.length === 0);
-        setTurnGroups(createTurnGroups(response.data));
-        setPaginationData(response.paginacion);
-      } catch (e) {
-        console.error('Error fetching turns:', e);
-      } finally {
-        setLoading(false);
-      }
->>>>>>> origin/develop
     };
 
     const addTurnToCart = (id) => {
