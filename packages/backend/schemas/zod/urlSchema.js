@@ -12,7 +12,7 @@ export const idParamNumberSchema = z.object({
 });
 
 export const idParamUUIDSchema = z.object({
-  id: z.uuid("El id debe ser un UUID válido")
+  id: z.string().uuid("El id debe ser un UUID válido")
 });
 
 export const idParamObjectIdSchema = z.object({

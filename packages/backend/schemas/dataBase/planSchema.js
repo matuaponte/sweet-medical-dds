@@ -1,4 +1,4 @@
-import { mongoose } from "mongoose";
+import mongoose from "mongoose";
 import { coberturaEspecialidadSchema } from "./coberturaEspecialidadSchema.js";
 import { coberturaPracticaSchema } from "./coberturaPractica.js";
 import { Plan } from "../../domain/plan.js";

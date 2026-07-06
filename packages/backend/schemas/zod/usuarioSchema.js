@@ -8,7 +8,7 @@ export const usuarioSchema = z.object({
     .regex(/^[a-zA-Z0-9_]+$/, { message: "Solo se permiten letras, números y guiones bajos" }), */
 
   // si usamos el correo como usuario
-  nombreUsuario: z.email({ message: "Formato de email inválido" }),
+  nombreUsuario: z.string().email({ message: "Formato de email inválido" }),
 
   password: z
     .string()

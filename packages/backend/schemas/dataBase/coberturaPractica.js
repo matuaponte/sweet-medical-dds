@@ -1,4 +1,4 @@
-import { mongoose } from "mongoose";
+import mongoose from "mongoose";
 import { CoberturaPractica } from "../../domain/coberturas/coberturaPractica.js";
 
 export const coberturaPracticaSchema = new mongoose.Schema({

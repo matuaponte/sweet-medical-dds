@@ -1,4 +1,4 @@
-import { mongoose } from "mongoose";
+import mongoose from "mongoose";
 import { Turno } from "../../domain/turnos/turno.js";
 import { historialEstadoTurnoSchema } from "./historialEstadoTurnoSchema.js";
 
