@@ -156,17 +156,7 @@ export default function CampanitaNotification() {
         </Box>
 
         {/* Contenido / Listado */}
-        <Box
-          sx={{
-            flexGrow: 1,
-            overflowY: 'auto',
-            minHeight: 180,
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            scrollbarGutter: 'stable',
-          }}
-        >
+        <Box sx={{ flexGrow: 1, overflowY: 'auto', minHeight: 180, display: 'flex', flexDirection: 'column', width: '100%', px: 1, scrollbarGutter: 'stable' }}>
           {cargando && (
             <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
               {[1, 2, 3].map((i) => (

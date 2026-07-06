@@ -28,6 +28,9 @@ export const NotificacionProvider = ({ children }) => {
   const [cargando, setCargando] = useState(false);
   const pollingTimerRef = useRef(null);
 
+  const ordenarPorFechaDesc = (arr) =>
+    [...arr].sort((a, b) => new Date(b.fechaHoraCreacion) - new Date(a.fechaHoraCreacion));
+
   // Carga inicial (limpia y carga la página 1)
   const obtenerNotificaciones = useCallback(async () => {
     if (!user) return;
@@ -42,11 +45,11 @@ export const NotificacionProvider = ({ children }) => {
       setCantidadNoLeidas(contadoresRes.data.noLeidas);
       setCantidadLeidas(contadoresRes.data.leidas);
 
-      setNotificacionesNoLeidas(noLeidasRes.data || []);
+      setNotificacionesNoLeidas(ordenarPorFechaDesc(noLeidasRes.data || []));
       setPageNoLeidas(1);
       setHasMoreNoLeidas(noLeidasRes.page < noLeidasRes.totalPages);
 
-      setNotificacionesLeidas(leidasRes.data || []);
+      setNotificacionesLeidas(ordenarPorFechaDesc(leidasRes.data || []));
       setPageLeidas(1);
       setHasMoreLeidas(leidasRes.page < leidasRes.totalPages);
     } catch (error) {
@@ -64,7 +67,7 @@ export const NotificacionProvider = ({ children }) => {
       const nextPage = pageNoLeidas + 1;
       const res = await getNotificacionesMe(false, nextPage, 5);
       
-      setNotificacionesNoLeidas((prev) => [...prev, ...(res.data || [])]);
+      setNotificacionesNoLeidas((prev) => ordenarPorFechaDesc([...prev, ...(res.data || [])]));
       setPageNoLeidas(nextPage);
       setHasMoreNoLeidas(res.page < res.totalPages);
     } catch (error) {
@@ -82,7 +85,7 @@ export const NotificacionProvider = ({ children }) => {
       const nextPage = pageLeidas + 1;
       const res = await getNotificacionesMe(true, nextPage, 5);
       
-      setNotificacionesLeidas((prev) => [...prev, ...(res.data || [])]);
+      setNotificacionesLeidas((prev) => ordenarPorFechaDesc([...prev, ...(res.data || [])]));
       setPageLeidas(nextPage);
       setHasMoreLeidas(res.page < res.totalPages);
     } catch (error) {
@@ -107,7 +110,7 @@ export const NotificacionProvider = ({ children }) => {
         setCantidadLeidas(nuevosLeidos);
         
         const noLeidasRes = await getNotificacionesMe(false, 1, 5);
-        setNotificacionesNoLeidas(noLeidasRes.data || []);
+        setNotificacionesNoLeidas(ordenarPorFechaDesc(noLeidasRes.data || []));
         setPageNoLeidas(1);
         setHasMoreNoLeidas(noLeidasRes.page < noLeidasRes.totalPages);
       }
@@ -126,10 +129,10 @@ export const NotificacionProvider = ({ children }) => {
       ]);
       setCantidadNoLeidas(contadoresRes.data.noLeidas);
       setCantidadLeidas(contadoresRes.data.leidas);
-      setNotificacionesNoLeidas(noLeidasRes.data || []);
+      setNotificacionesNoLeidas(ordenarPorFechaDesc(noLeidasRes.data || []));
       setPageNoLeidas(1);
       setHasMoreNoLeidas(noLeidasRes.page < noLeidasRes.totalPages);
-      setNotificacionesLeidas(leidasRes.data || []);
+      setNotificacionesLeidas(ordenarPorFechaDesc(leidasRes.data || []));
       setPageLeidas(1);
       setHasMoreLeidas(leidasRes.page < leidasRes.totalPages);
     } catch (error) {

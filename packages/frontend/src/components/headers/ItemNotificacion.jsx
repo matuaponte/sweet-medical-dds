@@ -26,6 +26,10 @@ export default function ItemNotificacion({
   const { id, mensaje, remitente, fechaHoraCreacion, leida, fechaHoraLeida } = notificacion;
   const [openModal, setOpenModal] = useState(false);
 
+  const lineas = mensaje?.split("\n") || [];
+  const titulo = lineas[0] || "";
+  const cuerpo = lineas.slice(1).join("\n").trim();
+
   const formatearFecha = (fechaStr) => {
     if (!fechaStr) return "";
     try {
@@ -37,6 +41,28 @@ export default function ItemNotificacion({
         hour: "2-digit",
         minute: "2-digit",
       });
+    } catch {
+      return fechaStr;
+    }
+  };
+
+  const formatearTiempoRelativo = (fechaStr) => {
+    if (!fechaStr) return "";
+    try {
+      const fecha = new Date(fechaStr);
+      const ahora = new Date();
+      const diffMs = ahora - fecha;
+      const diffSeg = Math.floor(diffMs / 1000);
+      const diffMin = Math.floor(diffSeg / 60);
+      const diffHor = Math.floor(diffMin / 60);
+      const diffDias = Math.floor(diffHor / 24);
+
+      if (diffSeg < 60) return "Ahora";
+      if (diffMin < 60) return `Hace ${diffMin} minuto${diffMin !== 1 ? "s" : ""}`;
+      if (diffHor < 24) return `Hace ${diffHor} hora${diffHor !== 1 ? "s" : ""}`;
+      if (diffDias < 7) return `Hace ${diffDias} día${diffDias !== 1 ? "s" : ""}`;
+
+      return formatearFecha(fechaStr);
     } catch {
       return fechaStr;
     }
@@ -55,18 +81,21 @@ export default function ItemNotificacion({
     <>
       <ListItem
         sx={{
+          width: '100%',
           p: pantallaCompleta ? 2.5 : 2,
           borderRadius: "8px",
-          mb: pantallaCompleta ? 1.5 : 0.5,
-          bgcolor: !leida && pantallaCompleta ? "action.hover" : "transparent",
+          mb: pantallaCompleta ? 1.5 : 0,
+          bgcolor: "transparent",
           border: pantallaCompleta ? "1px solid" : "none",
+          borderLeft: !leida && !pantallaCompleta ? "3px solid" : "none",
+          borderLeftColor: !leida && !pantallaCompleta ? "primary.main" : "transparent",
           borderColor: !leida && pantallaCompleta ? "action.selected" : "divider",
           transition: "all 0.2s",
           "&:hover": {
             boxShadow: pantallaCompleta ? "0px 4px 12px rgba(0, 0, 0, 0.04)" : "none",
             bgcolor: !leida && pantallaCompleta ? "action.selected" : "action.hover"
           },
-          pr: pantallaCompleta ? 8 : 7,
+          pr: pantallaCompleta ? 8 : 6,
           position: "relative"
         }}
       >
@@ -78,21 +107,15 @@ export default function ItemNotificacion({
                 fontWeight={!leida ? "600" : "400"}
                 color="text.primary"
                 sx={{
-                  wordBreak: "break-word",
-                  fontSize: pantallaCompleta ? "15px" : "14px",
-                  // Truncado condicional si el mensaje es muy largo (2 líneas de tope)
-                  display: mensaje && mensaje.length > 60 ? "-webkit-box" : "block",
-                  WebkitLineClamp: 2,
-                  WebkitBoxOrient: 'vertical',
-                  overflow: mensaje && mensaje.length > 60 ? 'hidden' : 'visible',
-                  textOverflow: mensaje && mensaje.length > 60 ? 'ellipsis' : 'clip',
-                  whiteSpace: 'normal'
+                  whiteSpace: 'pre-line',
+                  wordBreak: 'break-word',
+                  fontSize: pantallaCompleta ? '15px' : '14px',
+                  lineHeight: 1.6
                 }}
               >
                 {mensaje}
               </Typography>
-              {/* Enlace accesible "Ver más" únicamente si el mensaje es largo */}
-              {mensaje && mensaje.length > 60 && (
+              {mensaje && (
                 <Box sx={{ mt: 0.5 }}>
                   <Typography
                     variant="caption"
@@ -144,8 +167,9 @@ export default function ItemNotificacion({
                   whiteSpace: "nowrap",
                   fontSize: "12px"
                 }}
+                title={formatearFecha(fechaHoraCreacion)}
               >
-                {formatearFecha(fechaHoraCreacion)}
+                {formatearTiempoRelativo(fechaHoraCreacion)}
               </Typography>
             </Box>
           }
@@ -191,111 +215,125 @@ export default function ItemNotificacion({
         )}
       </ListItem>
 
-      {/* Modal de Detalle Estético y Accesible */}
+      {/* Modal de Detalle */}
       <Dialog
         open={openModal}
         onClose={() => setOpenModal(false)}
         maxWidth="sm"
         fullWidth
         slotProps={{
-          paper: {
-            sx: {
-              borderRadius: "16px",
-              p: 1.5
-            }
-          }
+          paper: { sx: { borderRadius: "16px" } }
         }}
       >
-        <DialogTitle
-          sx={{
-            fontWeight: "bold",
-            fontSize: "20px",
-            color: "primary.main",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            pb: 1
-          }}
-        >
-          Detalle de Notificación
-          <IconButton onClick={() => setOpenModal(false)} size="small">
-            <CloseIcon />
-          </IconButton>
-        </DialogTitle>
+        <Box sx={{ p: 3, display: "flex", flexDirection: "column", gap: 2.5 }}>
+          {/* Header: emoji + título + tiempo */}
+          <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+            <Box
+              sx={{
+                width: 44,
+                height: 44,
+                borderRadius: "12px",
+                bgcolor: "primary.main",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "22px",
+                flexShrink: 0
+              }}
+            >
+              {titulo.match(/^(\p{Emoji})/u)?.[1] || "📬"}
+            </Box>
+            <Box sx={{ flex: 1 }}>
+              <Typography variant="h6" fontWeight="bold" sx={{ lineHeight: 1.3 }}>
+                {titulo.replace(/^\p{Emoji}\s*/u, "")}
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                {formatearTiempoRelativo(fechaHoraCreacion)}
+              </Typography>
+            </Box>
+            <IconButton onClick={() => setOpenModal(false)} size="small" sx={{ mt: -0.5, mr: -0.5 }}>
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </Box>
 
-        <DialogContent dividers sx={{ py: 3.5 }}>
-          {/* Mensaje Completo */}
-          <Typography
-            variant="body1"
-            sx={{
-              fontWeight: "500",
-              lineHeight: 1.6,
-              color: "text.primary",
-              mb: 3,
-              fontSize: "16px",
-              wordBreak: "break-word"
-            }}
-          >
-            {mensaje}
-          </Typography>
+          {/* Cuerpo del mensaje */}
+          {cuerpo && (
+            <Box
+              sx={{
+                p: 2.5,
+                borderRadius: "12px",
+                bgcolor: "grey.50",
+                border: "1px solid",
+                borderColor: "divider",
+                whiteSpace: "pre-line",
+                lineHeight: 1.8,
+                color: "text.primary",
+                fontSize: "15px"
+              }}
+            >
+              {cuerpo}
+            </Box>
+          )}
 
-          {/* Caja de Metadatos */}
+          {/* Metadatos */}
           <Box
             sx={{
               display: "flex",
-              flexDirection: "column",
-              gap: 1.8,
+              justifyContent: "space-between",
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: 1.5,
               p: 2,
-              borderRadius: "8px",
+              borderRadius: "10px",
               bgcolor: "action.hover",
               border: "1px solid",
               borderColor: "divider"
             }}
           >
-            <Box display="flex" justifyContent="space-between" flexWrap="wrap" gap={1}>
-              <Typography variant="body2" color="text.secondary">
-                Remitente: <strong>{remitente}</strong>
+            <Box>
+              <Typography variant="caption" color="text.secondary">De</Typography>
+              <Typography variant="body2" fontWeight="600">{remitente}</Typography>
+            </Box>
+            <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+              <Typography variant="caption" color="text.secondary">
+                {formatearFecha(fechaHoraCreacion)}
               </Typography>
               <Chip
                 label={leida ? "Leída" : "Sin leer"}
                 color={leida ? "success" : "info"}
                 size="small"
                 variant="outlined"
-                sx={{ fontWeight: "bold" }}
+                sx={{ fontWeight: "bold", height: 24 }}
               />
             </Box>
-
-            <Box display="flex" flexDirection="column" gap={0.5}>
-              <Typography variant="caption" color="text.secondary">
-                Enviado: {formatearFecha(fechaHoraCreacion)}
-              </Typography>
-              {leida && fechaHoraLeida && (
-                <Typography variant="caption" color="text.secondary">
-                  Leído: {formatearFecha(fechaHoraLeida)}
-                </Typography>
-              )}
-            </Box>
           </Box>
-        </DialogContent>
 
-        <DialogActions sx={{ p: 2, gap: 1 }}>
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={handleToggleEstado}
-            sx={{ textTransform: "none", fontWeight: "bold", borderRadius: "8px" }}
-          >
-            {leida ? "Marcar como no leída" : "Marcar como leída"}
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => setOpenModal(false)}
-            sx={{ textTransform: "none", fontWeight: "bold", borderRadius: "8px" }}
-          >
-            Cerrar
-          </Button>
-        </DialogActions>
+          {leida && fechaHoraLeida && (
+            <Typography variant="caption" color="text.secondary" sx={{ textAlign: "right", mt: -1.5 }}>
+              Leído: {formatearFecha(fechaHoraLeida)}
+            </Typography>
+          )}
+
+          {/* Acciones */}
+          <Box sx={{ display: "flex", gap: 1, justifyContent: "flex-end" }}>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={handleToggleEstado}
+              sx={{ textTransform: "none", fontWeight: "bold", borderRadius: "8px" }}
+            >
+              {leida ? "Marcar como no leída" : "Marcar como leída"}
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => setOpenModal(false)}
+              sx={{ textTransform: "none", fontWeight: "bold", borderRadius: "8px" }}
+            >
+              Cerrar
+            </Button>
+          </Box>
+        </Box>
       </Dialog>
     </>
   );

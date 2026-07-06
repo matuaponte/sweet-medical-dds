@@ -10,7 +10,7 @@ export class FactoryNotificacion {
   static #t(clave, params , idiomaDestinatario) {
     return i18next.t(clave, { ns: "notificaciones", ...params });
   }
- 
+  
   static #params(turno, destinatario) {
     const esEspecialidad = turno.servicio instanceof Especialidad;
     return {
@@ -47,65 +47,70 @@ export class FactoryNotificacion {
     });
   }
 
+  static #getId(obj) {
+    return obj?.id?.toString() || obj?._id?.toString() || obj?.toString();
+  }
+
+  static #esParaPaciente(turno, destinatario) {
+    if (!turno.paciente || !destinatario) return false;
+    return this.#getId(destinatario) === this.#getId(turno.paciente);
+  }
+
   static crearSegunEstadoTurno(turno, remitente, destinatario) {
     const remitenteId = remitente?.idUsuario || remitente?.usuario;
     const destinatarioId = destinatario?.idUsuario || destinatario?.usuario;
     const remitenteNombre = remitente?.nombre || "Usuario";
-    
+    const servicio = turno.servicio?.nombre || "";
+    const sede = turno.sede?.nombre || "";
+    const pacienteNombre = turno.paciente?.nombre || "";
+    const esParaPaciente = this.#esParaPaciente(turno, destinatario);
+
     switch (turno.estado) {
       case EstadoTurnoEnum.DISPONIBLE:
         return new Notificacion({
           destinatario: destinatarioId,
           remitente: remitenteId,
-          mensaje:
-            `El turno volvió a estar disponible
-            - Para el servicio: ${turno.servicio.nombre}
-            - En la sede: ${turno.sede.nombre}`
+          mensaje: `📢 Turno disponible\n\n${servicio}\n${sede}`
         });
       case EstadoTurnoEnum.RESERVADO:
         return new Notificacion({
           destinatario: destinatarioId,
           remitente: remitenteId,
-          mensaje:
-            `El turno fue reservado por el usuario ${remitenteNombre} 
-            - Para el servicio: ${turno.servicio.nombre}
-            - En la sede: ${turno.sede.nombre}`
+          mensaje: esParaPaciente
+            ? `📩 Turno reservado\n\n${servicio}\n${sede}`
+            : `📩 Nuevo turno solicitado\n\nPaciente: ${pacienteNombre}\n${servicio}\n${sede}`
         });
       case EstadoTurnoEnum.CANCELADO:
         return new Notificacion({
           destinatario: destinatarioId,
           remitente: remitenteId,
-          mensaje:
-            `El turno fue cancelado por el usuario ${remitenteNombre} 
-            - Para el servicio: ${turno.servicio.nombre}
-            - En la sede: ${turno.sede.nombre}`
+          mensaje: esParaPaciente
+            ? `❌ Turno cancelado\n\n${servicio}\n${sede}\n\nCancelado por: ${remitenteNombre}`
+            : `❌ Turno cancelado\n\nPaciente: ${pacienteNombre}\n${servicio}\n${sede}`
         });
       case EstadoTurnoEnum.CONFIRMADO:
         return new Notificacion({
           destinatario: destinatarioId,
           remitente: remitenteId,
-          mensaje:
-            `El turno fue confirmado por el usuario ${remitenteNombre}
-            - Para el servicio: ${turno.servicio.nombre} 
-            - En la sede: "${turno.sede.nombre}`
+          mensaje: esParaPaciente
+            ? `✅ Turno confirmado\n\n${servicio}\n${sede}\n\nConfirmado por: ${remitenteNombre}`
+            : `✅ Turno confirmado\n\nPaciente: ${pacienteNombre}\n${servicio}\n${sede}`
         });
       case EstadoTurnoEnum.REALIZADO:
         return new Notificacion({
           destinatario: destinatarioId,
           remitente: remitenteId,
-          mensaje:
-            `Turno Realizado
-            - Para el servicio: ${turno.servicio.nombre}
-            - En la sede: "${turno.sede.nombre}`
+          mensaje: esParaPaciente
+            ? `✅ Turno realizado\n\n${servicio}\n${sede}`
+            : `✅ Turno realizado\n\nPaciente: ${pacienteNombre}\n${servicio}\n${sede}`
         });
       case EstadoTurnoEnum.PENDIENTECAMBIO:
         return new Notificacion({
           destinatario: destinatarioId,
           remitente: remitenteId,
-          mensaje:
-            `El turno fue puesto en pendiente de cambio por el usuario ${remitenteNombre}
-            - Para el servicio: " ${turno.servicio.nombre}
-            - En la sede: " ${turno.sede.nombre}`
+          mensaje: esParaPaciente
+            ? `🔄 Solicitud de cambio de turno\n\n${servicio}\n${sede}\n\nSolicitado por: ${remitenteNombre}`
+            : `🔄 Cambio pendiente de confirmación\n\nPaciente: ${pacienteNombre}\n${servicio}\n${sede}`
         });
       default:
         throw new Error("Estado de turno desconocido");
@@ -113,17 +118,20 @@ export class FactoryNotificacion {
   }
 
   static crearSegunFechaTurno (turno, destinatario) {
-    if(turno.fechaHora.getDay() === new Date().getDay() + 1) {
-      return new Notificacion({
-          destinatario: destinatario,
-          remitente: this.#usuarioSistema,
-          mensaje:
-            `Hola, señor/a ${destinatario.nombre}! Desde Sweet Medical le recordamos que su turno
-            ${turno.servicio instanceof Especialidad ? "para la especialidad" : "con la practica"} ${turno.servicio.nombre} 
-            en la sede ${turno.sede.nombre} 
-            es el día de mañana.`
-        });
-    }
+    if(turno.fechaHora.getDay() !== new Date().getDay() + 1) return null;
+
+    const servicio = turno.servicio?.nombre || "";
+    const sede = turno.sede?.nombre || "";
+    const pacienteNombre = turno.paciente?.nombre || "";
+    const esParaPaciente = this.#esParaPaciente(turno, destinatario);
+
+    return new Notificacion({
+      destinatario: destinatario,
+      remitente: this.#usuarioSistema,
+      mensaje: esParaPaciente
+        ? `⏰ Recordatorio: turno mañana\n\n${servicio}\n${sede}`
+        : `⏰ Recordatorio: turno mañana\n\nPaciente: ${pacienteNombre}\n${servicio}\n${sede}`
+    });
   }
  
   static setUsuarioSistema(usuario) {
