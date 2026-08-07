@@ -147,4 +147,4 @@ npm run start:dev
 - **Frontend:** React.js, HTML5, CSS3, JavaScript (ES6+), Cypress
 - **Gestor de Monorepo:** npm workspaces
 - **Universidad:** Universidad Tecnológica Nacional (UTN FRBA)
-- **Materia:** Desarrollo de Software (DDS)
+- **Materia:** Desarrollo de Software (DDSO)
