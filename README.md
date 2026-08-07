@@ -1,6 +1,6 @@
 # [🏥 Sweet Medical — Plataforma de Gestión de Turnos Médicos y Centro de Salud](https://github.com/matuaponte/sweet-medical-ddso/blob/develop/%5BDDS%20UTN%5D%20Trabajo%20Pr%C3%A1ctico%20Integrador%20-%201C%202026%20-%20P%C3%BAblico.pdf)
 
-> **Trabajo Práctico Integrador — Desarrollo de Software (DDS / UTN FRBA)**  
+> **Trabajo Práctico Integrador — Desarrollo de Software (DDSO / UTN FRBA)**  
 > **Curso:** 1C 2026 (Lunes y Sábados) | **Grupo:** 05  
 > **Stack:** Monorepo (Node.js, Express.js, React.js, MongoDB / Mongoose, Docker, Cypress)  
 > **Arquitectura:** Layered Architecture (Controllers, Services, Repositories, Domain, Schedulers)  
